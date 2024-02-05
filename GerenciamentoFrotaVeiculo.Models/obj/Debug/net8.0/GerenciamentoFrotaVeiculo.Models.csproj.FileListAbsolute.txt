@@ -1,0 +1,12 @@
+C:\EnviarGitHub\eCommerce\api\GerenciamentoFrotaVeiculo.Api\GerenciamentoFrotaVeiculo.Models\bin\Debug\net8.0\GerenciamentoFrotaVeiculo.Models.deps.json
+C:\EnviarGitHub\eCommerce\api\GerenciamentoFrotaVeiculo.Api\GerenciamentoFrotaVeiculo.Models\bin\Debug\net8.0\GerenciamentoFrotaVeiculo.Models.dll
+C:\EnviarGitHub\eCommerce\api\GerenciamentoFrotaVeiculo.Api\GerenciamentoFrotaVeiculo.Models\bin\Debug\net8.0\GerenciamentoFrotaVeiculo.Models.pdb
+C:\EnviarGitHub\eCommerce\api\GerenciamentoFrotaVeiculo.Api\GerenciamentoFrotaVeiculo.Models\obj\Debug\net8.0\GerenciamentoFrotaVeiculo.Models.GeneratedMSBuildEditorConfig.editorconfig
+C:\EnviarGitHub\eCommerce\api\GerenciamentoFrotaVeiculo.Api\GerenciamentoFrotaVeiculo.Models\obj\Debug\net8.0\GerenciamentoFrotaVeiculo.Models.AssemblyInfoInputs.cache
+C:\EnviarGitHub\eCommerce\api\GerenciamentoFrotaVeiculo.Api\GerenciamentoFrotaVeiculo.Models\obj\Debug\net8.0\GerenciamentoFrotaVeiculo.Models.AssemblyInfo.cs
+C:\EnviarGitHub\eCommerce\api\GerenciamentoFrotaVeiculo.Api\GerenciamentoFrotaVeiculo.Models\obj\Debug\net8.0\GerenciamentoFrotaVeiculo.Models.csproj.CoreCompileInputs.cache
+C:\EnviarGitHub\eCommerce\api\GerenciamentoFrotaVeiculo.Api\GerenciamentoFrotaVeiculo.Models\obj\Debug\net8.0\GerenciamentoFrotaVeiculo.Models.sourcelink.json
+C:\EnviarGitHub\eCommerce\api\GerenciamentoFrotaVeiculo.Api\GerenciamentoFrotaVeiculo.Models\obj\Debug\net8.0\GerenciamentoFrotaVeiculo.Models.dll
+C:\EnviarGitHub\eCommerce\api\GerenciamentoFrotaVeiculo.Api\GerenciamentoFrotaVeiculo.Models\obj\Debug\net8.0\refint\GerenciamentoFrotaVeiculo.Models.dll
+C:\EnviarGitHub\eCommerce\api\GerenciamentoFrotaVeiculo.Api\GerenciamentoFrotaVeiculo.Models\obj\Debug\net8.0\GerenciamentoFrotaVeiculo.Models.pdb
+C:\EnviarGitHub\eCommerce\api\GerenciamentoFrotaVeiculo.Api\GerenciamentoFrotaVeiculo.Models\obj\Debug\net8.0\ref\GerenciamentoFrotaVeiculo.Models.dll
