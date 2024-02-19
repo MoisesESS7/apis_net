@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\EnviarGitHub\\eCommerce\\api\\GerenciamentoFrotaVeiculo.Api\\GerenciamentoFrotaVeiculo.Api\\GerenciamentoFrotaVeiculo.Api.csproj": {}
+    "C:\\EnviarParaGitHub\\apis_net\\GerenciamentoFrotaVeiculo.Api\\GerenciamentoFrotaVeiculo.Api.csproj": {}
   },
   "projects": {
-    "C:\\EnviarGitHub\\eCommerce\\api\\GerenciamentoFrotaVeiculo.Api\\GerenciamentoFrotaVeiculo.Api\\GerenciamentoFrotaVeiculo.Api.csproj": {
+    "C:\\EnviarParaGitHub\\apis_net\\GerenciamentoFrotaVeiculo.Api\\GerenciamentoFrotaVeiculo.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\EnviarGitHub\\eCommerce\\api\\GerenciamentoFrotaVeiculo.Api\\GerenciamentoFrotaVeiculo.Api\\GerenciamentoFrotaVeiculo.Api.csproj",
+        "projectUniqueName": "C:\\EnviarParaGitHub\\apis_net\\GerenciamentoFrotaVeiculo.Api\\GerenciamentoFrotaVeiculo.Api.csproj",
         "projectName": "GerenciamentoFrotaVeiculo.Api",
-        "projectPath": "C:\\EnviarGitHub\\eCommerce\\api\\GerenciamentoFrotaVeiculo.Api\\GerenciamentoFrotaVeiculo.Api\\GerenciamentoFrotaVeiculo.Api.csproj",
+        "projectPath": "C:\\EnviarParaGitHub\\apis_net\\GerenciamentoFrotaVeiculo.Api\\GerenciamentoFrotaVeiculo.Api.csproj",
         "packagesPath": "C:\\Users\\moise\\.nuget\\packages\\",
-        "outputPath": "C:\\EnviarGitHub\\eCommerce\\api\\GerenciamentoFrotaVeiculo.Api\\GerenciamentoFrotaVeiculo.Api\\obj\\",
+        "outputPath": "C:\\EnviarParaGitHub\\apis_net\\GerenciamentoFrotaVeiculo.Api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\moise\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -28,11 +28,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\EnviarGitHub\\eCommerce\\api\\GerenciamentoFrotaVeiculo.Api\\GerenciamentoFrotaVeiculo.Models\\GerenciamentoFrotaVeiculo.Models.csproj": {
-                "projectPath": "C:\\EnviarGitHub\\eCommerce\\api\\GerenciamentoFrotaVeiculo.Api\\GerenciamentoFrotaVeiculo.Models\\GerenciamentoFrotaVeiculo.Models.csproj"
+              "C:\\EnviarParaGitHub\\apis_net\\GerenciamentoFrotaVeiculo.Models\\GerenciamentoFrotaVeiculo.Models.csproj": {
+                "projectPath": "C:\\EnviarParaGitHub\\apis_net\\GerenciamentoFrotaVeiculo.Models\\GerenciamentoFrotaVeiculo.Models.csproj"
               },
-              "C:\\EnviarGitHub\\eCommerce\\api\\GerenciamentoFrotaVeiculo.Api\\GerenciamentoFrotaVeiculo.Repository\\GerenciamentoFrotaVeiculo.Repository.csproj": {
-                "projectPath": "C:\\EnviarGitHub\\eCommerce\\api\\GerenciamentoFrotaVeiculo.Api\\GerenciamentoFrotaVeiculo.Repository\\GerenciamentoFrotaVeiculo.Repository.csproj"
+              "C:\\EnviarParaGitHub\\apis_net\\GerenciamentoFrotaVeiculo.Repository\\GerenciamentoFrotaVeiculo.Repository.csproj": {
+                "projectPath": "C:\\EnviarParaGitHub\\apis_net\\GerenciamentoFrotaVeiculo.Repository\\GerenciamentoFrotaVeiculo.Repository.csproj"
               }
             }
           }
@@ -47,23 +47,9 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "Microsoft.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "[8.0.1, )"
-            },
-            "Microsoft.EntityFrameworkCore.SqlServer": {
-              "target": "Package",
-              "version": "[8.0.1, )"
-            },
-            "Microsoft.EntityFrameworkCore.Tools": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[8.0.1, )"
-            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[6.4.0, )"
+              "version": "[6.5.0, )"
             }
           },
           "imports": [
@@ -89,14 +75,95 @@
         }
       }
     },
-    "C:\\EnviarGitHub\\eCommerce\\api\\GerenciamentoFrotaVeiculo.Api\\GerenciamentoFrotaVeiculo.Models\\GerenciamentoFrotaVeiculo.Models.csproj": {
+    "C:\\EnviarParaGitHub\\apis_net\\GerenciamentoFrotaVeiculo.Context\\GerenciamentoFrotaVeiculo.Context.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\EnviarGitHub\\eCommerce\\api\\GerenciamentoFrotaVeiculo.Api\\GerenciamentoFrotaVeiculo.Models\\GerenciamentoFrotaVeiculo.Models.csproj",
-        "projectName": "GerenciamentoFrotaVeiculo.Models",
-        "projectPath": "C:\\EnviarGitHub\\eCommerce\\api\\GerenciamentoFrotaVeiculo.Api\\GerenciamentoFrotaVeiculo.Models\\GerenciamentoFrotaVeiculo.Models.csproj",
+        "projectUniqueName": "C:\\EnviarParaGitHub\\apis_net\\GerenciamentoFrotaVeiculo.Context\\GerenciamentoFrotaVeiculo.Context.csproj",
+        "projectName": "GerenciamentoFrotaVeiculo.Context",
+        "projectPath": "C:\\EnviarParaGitHub\\apis_net\\GerenciamentoFrotaVeiculo.Context\\GerenciamentoFrotaVeiculo.Context.csproj",
         "packagesPath": "C:\\Users\\moise\\.nuget\\packages\\",
-        "outputPath": "C:\\EnviarGitHub\\eCommerce\\api\\GerenciamentoFrotaVeiculo.Api\\GerenciamentoFrotaVeiculo.Models\\obj\\",
+        "outputPath": "C:\\EnviarParaGitHub\\apis_net\\GerenciamentoFrotaVeiculo.Context\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\moise\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\EnviarParaGitHub\\apis_net\\GerenciamentoFrotaVeiculo.Models\\GerenciamentoFrotaVeiculo.Models.csproj": {
+                "projectPath": "C:\\EnviarParaGitHub\\apis_net\\GerenciamentoFrotaVeiculo.Models\\GerenciamentoFrotaVeiculo.Models.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\EnviarParaGitHub\\apis_net\\GerenciamentoFrotaVeiculo.Models\\GerenciamentoFrotaVeiculo.Models.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\EnviarParaGitHub\\apis_net\\GerenciamentoFrotaVeiculo.Models\\GerenciamentoFrotaVeiculo.Models.csproj",
+        "projectName": "GerenciamentoFrotaVeiculo.Models",
+        "projectPath": "C:\\EnviarParaGitHub\\apis_net\\GerenciamentoFrotaVeiculo.Models\\GerenciamentoFrotaVeiculo.Models.csproj",
+        "packagesPath": "C:\\Users\\moise\\.nuget\\packages\\",
+        "outputPath": "C:\\EnviarParaGitHub\\apis_net\\GerenciamentoFrotaVeiculo.Models\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\moise\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -144,14 +211,14 @@
         }
       }
     },
-    "C:\\EnviarGitHub\\eCommerce\\api\\GerenciamentoFrotaVeiculo.Api\\GerenciamentoFrotaVeiculo.Repository\\GerenciamentoFrotaVeiculo.Repository.csproj": {
+    "C:\\EnviarParaGitHub\\apis_net\\GerenciamentoFrotaVeiculo.Repository\\GerenciamentoFrotaVeiculo.Repository.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\EnviarGitHub\\eCommerce\\api\\GerenciamentoFrotaVeiculo.Api\\GerenciamentoFrotaVeiculo.Repository\\GerenciamentoFrotaVeiculo.Repository.csproj",
+        "projectUniqueName": "C:\\EnviarParaGitHub\\apis_net\\GerenciamentoFrotaVeiculo.Repository\\GerenciamentoFrotaVeiculo.Repository.csproj",
         "projectName": "GerenciamentoFrotaVeiculo.Repository",
-        "projectPath": "C:\\EnviarGitHub\\eCommerce\\api\\GerenciamentoFrotaVeiculo.Api\\GerenciamentoFrotaVeiculo.Repository\\GerenciamentoFrotaVeiculo.Repository.csproj",
+        "projectPath": "C:\\EnviarParaGitHub\\apis_net\\GerenciamentoFrotaVeiculo.Repository\\GerenciamentoFrotaVeiculo.Repository.csproj",
         "packagesPath": "C:\\Users\\moise\\.nuget\\packages\\",
-        "outputPath": "C:\\EnviarGitHub\\eCommerce\\api\\GerenciamentoFrotaVeiculo.Api\\GerenciamentoFrotaVeiculo.Repository\\obj\\",
+        "outputPath": "C:\\EnviarParaGitHub\\apis_net\\GerenciamentoFrotaVeiculo.Repository\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\moise\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -168,8 +235,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\EnviarGitHub\\eCommerce\\api\\GerenciamentoFrotaVeiculo.Api\\GerenciamentoFrotaVeiculo.Models\\GerenciamentoFrotaVeiculo.Models.csproj": {
-                "projectPath": "C:\\EnviarGitHub\\eCommerce\\api\\GerenciamentoFrotaVeiculo.Api\\GerenciamentoFrotaVeiculo.Models\\GerenciamentoFrotaVeiculo.Models.csproj"
+              "C:\\EnviarParaGitHub\\apis_net\\GerenciamentoFrotaVeiculo.Context\\GerenciamentoFrotaVeiculo.Context.csproj": {
+                "projectPath": "C:\\EnviarParaGitHub\\apis_net\\GerenciamentoFrotaVeiculo.Context\\GerenciamentoFrotaVeiculo.Context.csproj"
+              },
+              "C:\\EnviarParaGitHub\\apis_net\\GerenciamentoFrotaVeiculo.Models\\GerenciamentoFrotaVeiculo.Models.csproj": {
+                "projectPath": "C:\\EnviarParaGitHub\\apis_net\\GerenciamentoFrotaVeiculo.Models\\GerenciamentoFrotaVeiculo.Models.csproj"
               }
             }
           }
@@ -186,7 +256,7 @@
           "dependencies": {
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[8.0.1, )"
+              "version": "[8.0.2, )"
             }
           },
           "imports": [

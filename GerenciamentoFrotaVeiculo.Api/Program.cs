@@ -1,8 +1,8 @@
 using GerenciamentoFrotaVeiculo.Repository.Repository;
-using GerenciamentoFrotaVeiculo.Repository.Context;
 using GerenciamentoFrotaVeiculo.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using GerenciamentoFrotaVeiculo.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 

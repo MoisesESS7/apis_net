@@ -2,9 +2,9 @@
 using GerenciamentoFrotaVeiculo.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GerenciamentoFrotaVeiculo.Api.Controllers
+namespace GerenciamentoFrotaVeiculo.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/")]
     [ApiController]
     public class ColaboradoresVeiculosController : ControllerBase
     {
@@ -19,7 +19,7 @@ namespace GerenciamentoFrotaVeiculo.Api.Controllers
             _veiculoRepository = veiculo;
         }
 
-        [HttpGet("{colaboradorId}/{veiculoId}")]
+        [HttpGet("colaboradores/{colaboradorId}/veiculo/{veiculoId}")]
         public async Task<IActionResult> GetAsync(int colaboradorId, int veiculoId)
         {
             var colaboradorVeiculo = await _colaboradorVeiculoRepository
@@ -28,7 +28,7 @@ namespace GerenciamentoFrotaVeiculo.Api.Controllers
             return Ok(colaboradorVeiculo);
         }
 
-        [HttpGet]
+        [HttpGet("colaboradores/veiculos")]
         public async Task<IActionResult> GetAll()
         {
             var colaboradoresVeiculos = await _colaboradorVeiculoRepository.GetAllAsync();
@@ -36,7 +36,7 @@ namespace GerenciamentoFrotaVeiculo.Api.Controllers
             return Ok(colaboradoresVeiculos);
         }
 
-        [HttpPost("{colaboradorId},{veiculoId}")]
+        [HttpPost("colaboradores/{colaboradorId}/veiculo/{veiculoId}")]
         public async Task<IActionResult> CreateAsync([FromBody] ColaboradorVeiculo colaboradorVeiculo, int colaboradorId, int veiculoId)
         {
             var colaborador = await _colaboradorRepository.GetAsync(colaboradorId);
@@ -51,7 +51,7 @@ namespace GerenciamentoFrotaVeiculo.Api.Controllers
             return Ok(colaboradorVeiculo);
         }
 
-        [HttpPut("{colaboradorId},{veiculoId}")]
+        [HttpPut("colaboradores/{colaboradorId}/veiculo/{veiculoId}")]
         public async Task<IActionResult> UpdateAsync([FromBody] ColaboradorVeiculo colaboradorVeiculoRequisicao, int colaboradorId, int veiculoId)
         {
             var colaboradorVeiculoDb = 
@@ -63,7 +63,7 @@ namespace GerenciamentoFrotaVeiculo.Api.Controllers
             return Ok(colaboradorVeiculoRequisicao);
         }
 
-        [HttpDelete("{colaboradorId},{veiculoId}")]
+        [HttpDelete("colaboradores/{colaboradorId}/veiculo/{veiculoId}")]
         public async Task<IActionResult> DeleteAsync(int colaboradorId, int veiculoId)
         {
             var colaboradorVeiculo = await _colaboradorVeiculoRepository.GetAsync(colaboradorId, veiculoId);

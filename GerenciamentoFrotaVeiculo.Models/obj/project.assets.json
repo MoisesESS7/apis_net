@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\EnviarGitHub\\eCommerce\\api\\GerenciamentoFrotaVeiculo.Api\\GerenciamentoFrotaVeiculo.Models\\GerenciamentoFrotaVeiculo.Models.csproj",
+      "projectUniqueName": "C:\\EnviarParaGitHub\\apis_net\\GerenciamentoFrotaVeiculo.Models\\GerenciamentoFrotaVeiculo.Models.csproj",
       "projectName": "GerenciamentoFrotaVeiculo.Models",
-      "projectPath": "C:\\EnviarGitHub\\eCommerce\\api\\GerenciamentoFrotaVeiculo.Api\\GerenciamentoFrotaVeiculo.Models\\GerenciamentoFrotaVeiculo.Models.csproj",
+      "projectPath": "C:\\EnviarParaGitHub\\apis_net\\GerenciamentoFrotaVeiculo.Models\\GerenciamentoFrotaVeiculo.Models.csproj",
       "packagesPath": "C:\\Users\\moise\\.nuget\\packages\\",
-      "outputPath": "C:\\EnviarGitHub\\eCommerce\\api\\GerenciamentoFrotaVeiculo.Api\\GerenciamentoFrotaVeiculo.Models\\obj\\",
+      "outputPath": "C:\\EnviarParaGitHub\\apis_net\\GerenciamentoFrotaVeiculo.Models\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\moise\\AppData\\Roaming\\NuGet\\NuGet.Config",

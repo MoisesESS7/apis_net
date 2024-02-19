@@ -7,17 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.2" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GerenciamentoFrotaVeiculo.Context\GerenciamentoFrotaVeiculo.Context.csproj" />
     <ProjectReference Include="..\GerenciamentoFrotaVeiculo.Models\GerenciamentoFrotaVeiculo.Models.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Context\ECommerceContext.cs">
-      <CustomToolNamespace></CustomToolNamespace>
-    </Compile>
   </ItemGroup>
 
 </Project>

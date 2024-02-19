@@ -2,9 +2,9 @@
 using GerenciamentoFrotaVeiculo.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GerenciamentoFrotaVeiculo.Api.Controllers
+namespace GerenciamentoFrotaVeiculo.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/")]
     [ApiController]
     public class VeiculosController : ControllerBase
     {
@@ -15,7 +15,7 @@ namespace GerenciamentoFrotaVeiculo.Api.Controllers
             _veiculoRepository = veiculoRepository;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("veiculos/{id}")]
         public async Task<IActionResult> GetAsync(int id)
         {
             var veiculo = await _veiculoRepository.GetAsync(id);
@@ -23,7 +23,7 @@ namespace GerenciamentoFrotaVeiculo.Api.Controllers
             return Ok(veiculo);
         }
 
-        [HttpGet]
+        [HttpGet("veiculos/")]
         public async Task<IActionResult> GetAllAsync()
         {
             var veiculos = await _veiculoRepository.GetAllAsync();
@@ -31,7 +31,7 @@ namespace GerenciamentoFrotaVeiculo.Api.Controllers
             return Ok(veiculos);
         }
 
-        [HttpPost]
+        [HttpPost("veiculos")]
         public async Task<IActionResult> CreateAsync([FromBody] Veiculo veiculo)
         {
             await _veiculoRepository.CreateAsync(veiculo);
@@ -39,7 +39,7 @@ namespace GerenciamentoFrotaVeiculo.Api.Controllers
             return Ok(veiculo);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("veiculos/{id}")]
         public async Task<IActionResult> UpdateAsync([FromBody] Veiculo veiculo)
         {
             await _veiculoRepository.UpdateAsync(veiculo);
@@ -47,7 +47,7 @@ namespace GerenciamentoFrotaVeiculo.Api.Controllers
             return Ok(veiculo);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("veiculos/{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
             var veiculo = await _veiculoRepository.GetAsync(id);

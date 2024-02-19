@@ -1,5 +1,5 @@
-﻿using GerenciamentoFrotaVeiculo.Models;
-using GerenciamentoFrotaVeiculo.Repository.Context;
+﻿using GerenciamentoFrotaVeiculo.Context;
+using GerenciamentoFrotaVeiculo.Models;
 using GerenciamentoFrotaVeiculo.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 
