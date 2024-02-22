@@ -33,7 +33,7 @@ namespace GerenciamentoFrotaVeiculo.Controllers
         {
             var colaboradores = await _colaboradorRepository.GetAllAsync();
 
-            if(colaboradores is null)
+            if(colaboradores.Count == 0)
             {
                 return NotFound();
             }
