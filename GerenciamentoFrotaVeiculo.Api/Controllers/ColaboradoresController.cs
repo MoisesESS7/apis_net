@@ -20,6 +20,11 @@ namespace GerenciamentoFrotaVeiculo.Controllers
         {
             var colaborador = await _colaboradorRepository.GetAsync(id);
 
+            if(colaborador is null)
+            {
+                return NotFound();
+            }
+
             return Ok(colaborador);
         }
 
@@ -28,12 +33,22 @@ namespace GerenciamentoFrotaVeiculo.Controllers
         {
             var colaboradores = await _colaboradorRepository.GetAllAsync();
 
+            if(colaboradores is null)
+            {
+                return NotFound();
+            }
+
             return Ok(colaboradores);
         }
 
         [HttpPost("colaboradores")]
         public async Task<IActionResult> CreateAsync([FromBody] Colaborador colaborador)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             await _colaboradorRepository.CreateAsync(colaborador);
 
             return Ok(colaborador);
@@ -42,7 +57,23 @@ namespace GerenciamentoFrotaVeiculo.Controllers
         [HttpPut("colaboradores/{id}")]
         public async Task<IActionResult> UpdateAsync([FromBody] Colaborador colaboradorRequisicao, int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            if(colaboradorRequisicao.Id != id)
+            {
+                return BadRequest();
+            }
+
             var colaboradorDb = await _colaboradorRepository.GetAsync(id);
+
+            if(colaboradorDb is null)
+            {
+                return NotFound();
+            }
+
             await _colaboradorRepository.UpdateAsync(colaboradorRequisicao, colaboradorDb);
 
             return Ok(colaboradorRequisicao);
@@ -52,6 +83,12 @@ namespace GerenciamentoFrotaVeiculo.Controllers
         public async Task<IActionResult> DeleteAsync(int id)
         {
             var colaborador = await _colaboradorRepository.GetAsync(id);
+
+            if (colaborador is null)
+            {
+                return NotFound();
+            }
+
             await _colaboradorRepository.DeleteAsync(colaborador);
             
             return Ok(colaborador);
