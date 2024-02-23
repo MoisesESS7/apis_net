@@ -7,7 +7,7 @@ namespace GerenciamentoFrotaVeiculo.Repository.IRepository
         Task<Veiculo> GetAsync(int id);
         Task<List<Veiculo>> GetAllAsync();
         Task CreateAsync(Veiculo veiculo);
-        Task UpdateAsync(Veiculo veiculo);
+        Task UpdateAsync(Veiculo veiculo, Veiculo outroVeiculo);
         Task DeleteAsync(Veiculo veiculo);
     }
 }

@@ -34,7 +34,7 @@ namespace GerenciamentoFrotaVeiculo.Controllers
         }
 
         [HttpGet("colaboradores/veiculos")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAllAsync()
         {
             var colaboradoresVeiculos = await _colaboradorVeiculoRepository.GetAllAsync();
 

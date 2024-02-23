@@ -34,9 +34,13 @@ namespace GerenciamentoFrotaVeiculo.Repository.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(Veiculo veiculo)
+        public async Task UpdateAsync(Veiculo veiculoDb, Veiculo veiculoRequisicao)
         {
-            _context.Veiculos.Update(veiculo);
+            veiculoDb = veiculoRequisicao;
+
+            _context.ChangeTracker.Clear();
+
+            _context.Veiculos.Update(veiculoDb);
             await _context.SaveChangesAsync();
         }
 
