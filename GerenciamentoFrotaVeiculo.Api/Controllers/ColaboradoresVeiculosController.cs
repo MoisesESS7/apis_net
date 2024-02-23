@@ -19,11 +19,16 @@ namespace GerenciamentoFrotaVeiculo.Controllers
             _veiculoRepository = veiculo;
         }
 
-        [HttpGet("colaboradores/{colaboradorId}/veiculo/{veiculoId}")]
+        [HttpGet("colaboradores/{colaboradorId}/veiculos/{veiculoId}")]
         public async Task<IActionResult> GetAsync(int colaboradorId, int veiculoId)
         {
             var colaboradorVeiculo = await _colaboradorVeiculoRepository
                 .GetAsync(colaboradorId, veiculoId);
+
+            if(colaboradorVeiculo is null)
+            {
+                return NotFound();
+            }
 
             return Ok(colaboradorVeiculo);
         }
@@ -33,14 +38,35 @@ namespace GerenciamentoFrotaVeiculo.Controllers
         {
             var colaboradoresVeiculos = await _colaboradorVeiculoRepository.GetAllAsync();
 
+            if(colaboradoresVeiculos.Count == 0)
+            {
+                return NotFound();
+            }
+
             return Ok(colaboradoresVeiculos);
         }
 
-        [HttpPost("colaboradores/{colaboradorId}/veiculo/{veiculoId}")]
+        [HttpPost("colaboradores/{colaboradorId}/veiculos/{veiculoId}")]
         public async Task<IActionResult> CreateAsync([FromBody] ColaboradorVeiculo colaboradorVeiculo, int colaboradorId, int veiculoId)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            if(colaboradorVeiculo.ColaboradorId != colaboradorId
+                || colaboradorVeiculo.VeiculoId != veiculoId)
+            {
+                return BadRequest();
+            }
+
             var colaborador = await _colaboradorRepository.GetAsync(colaboradorId);
             var veiculo = await _veiculoRepository.GetAsync(veiculoId);
+
+            if(colaborador is null || veiculo is null)
+            {
+                return NotFound();
+            }
 
             colaboradorVeiculo.Colaborador = colaborador;
             colaboradorVeiculo.Veiculo = veiculo;
@@ -51,11 +77,27 @@ namespace GerenciamentoFrotaVeiculo.Controllers
             return Ok(colaboradorVeiculo);
         }
 
-        [HttpPut("colaboradores/{colaboradorId}/veiculo/{veiculoId}")]
+        [HttpPut("colaboradores/{colaboradorId}/veiculos/{veiculoId}")]
         public async Task<IActionResult> UpdateAsync([FromBody] ColaboradorVeiculo colaboradorVeiculoRequisicao, int colaboradorId, int veiculoId)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            if (colaboradorVeiculoRequisicao.ColaboradorId != colaboradorId
+                || colaboradorVeiculoRequisicao.VeiculoId != veiculoId)
+            {
+                return BadRequest();
+            }
+
             var colaboradorVeiculoDb = 
                 await _colaboradorVeiculoRepository.GetAsync(colaboradorId, veiculoId);
+
+            if(colaboradorVeiculoDb is null)
+            {
+                return NotFound();
+            }
 
             await _colaboradorVeiculoRepository
                 .UpdateAsync(colaboradorVeiculoRequisicao, colaboradorVeiculoDb);
@@ -63,10 +105,16 @@ namespace GerenciamentoFrotaVeiculo.Controllers
             return Ok(colaboradorVeiculoRequisicao);
         }
 
-        [HttpDelete("colaboradores/{colaboradorId}/veiculo/{veiculoId}")]
+        [HttpDelete("colaboradores/{colaboradorId}/veiculos/{veiculoId}")]
         public async Task<IActionResult> DeleteAsync(int colaboradorId, int veiculoId)
         {
             var colaboradorVeiculo = await _colaboradorVeiculoRepository.GetAsync(colaboradorId, veiculoId);
+
+            if(colaboradorVeiculo is null)
+            {
+                return NotFound();
+            }
+
             await _colaboradorVeiculoRepository.DeleteAsync(colaboradorVeiculo);
 
             return Ok(colaboradorVeiculo);
