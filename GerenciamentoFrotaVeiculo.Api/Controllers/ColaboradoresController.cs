@@ -1,5 +1,4 @@
 ﻿using GerenciamentoFrotaVeiculo.Models;
-using GerenciamentoFrotaVeiculo.Repository;
 using GerenciamentoFrotaVeiculo.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 
