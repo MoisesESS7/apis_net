@@ -7,14 +7,14 @@ namespace GerenciamentoFrotaVeiculo.Repository.Repository
 {
     public class ColaboradorRepository : IColaboradorRepository
     {
-        private readonly ECommerceContext _context;
+        private readonly GerenciamentoFrotaVeiculoContext _context;
 
-        public ColaboradorRepository(ECommerceContext context)
+        public ColaboradorRepository(GerenciamentoFrotaVeiculoContext context)
         {
             _context = context;
         }
 
-        public async Task<Colaborador> GetAsync(int id)
+        public async Task<Colaborador> GetByIdAsync(int id)
         {
             var colaborador = await _context.Colaboradores
                 .Include(c => c.ColaboradoresVeiculos)

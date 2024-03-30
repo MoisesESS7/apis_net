@@ -20,10 +20,10 @@ namespace GerenciamentoFrotaVeiculo.Controllers
         }
 
         [HttpGet("colaboradores/{colaboradorId}/veiculos/{veiculoId}")]
-        public async Task<IActionResult> GetAsync(int colaboradorId, int veiculoId)
+        public async Task<IActionResult> GetByIdAsync(int colaboradorId, int veiculoId)
         {
             var colaboradorVeiculo = await _colaboradorVeiculoRepository
-                .GetAsync(colaboradorId, veiculoId);
+                .GetByIdAsync(colaboradorId, veiculoId);
 
             if(colaboradorVeiculo is null)
             {
@@ -60,8 +60,8 @@ namespace GerenciamentoFrotaVeiculo.Controllers
                 return BadRequest();
             }
 
-            var colaborador = await _colaboradorRepository.GetAsync(colaboradorId);
-            var veiculo = await _veiculoRepository.GetAsync(veiculoId);
+            var colaborador = await _colaboradorRepository.GetByIdAsync(colaboradorId);
+            var veiculo = await _veiculoRepository.GetByIdAsync(veiculoId);
 
             if(colaborador is null || veiculo is null)
             {
@@ -92,7 +92,7 @@ namespace GerenciamentoFrotaVeiculo.Controllers
             }
 
             var colaboradorVeiculoDb = 
-                await _colaboradorVeiculoRepository.GetAsync(colaboradorId, veiculoId);
+                await _colaboradorVeiculoRepository.GetByIdAsync(colaboradorId, veiculoId);
 
             if(colaboradorVeiculoDb is null)
             {
@@ -108,7 +108,7 @@ namespace GerenciamentoFrotaVeiculo.Controllers
         [HttpDelete("colaboradores/{colaboradorId}/veiculos/{veiculoId}")]
         public async Task<IActionResult> DeleteAsync(int colaboradorId, int veiculoId)
         {
-            var colaboradorVeiculo = await _colaboradorVeiculoRepository.GetAsync(colaboradorId, veiculoId);
+            var colaboradorVeiculo = await _colaboradorVeiculoRepository.GetByIdAsync(colaboradorId, veiculoId);
 
             if(colaboradorVeiculo is null)
             {

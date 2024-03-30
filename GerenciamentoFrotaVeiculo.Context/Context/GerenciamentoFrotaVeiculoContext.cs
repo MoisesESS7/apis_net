@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GerenciamentoFrotaVeiculo.Context
 {
-    public class ECommerceContext : DbContext
+    public class GerenciamentoFrotaVeiculoContext : DbContext
     {
-        public ECommerceContext(DbContextOptions<ECommerceContext> options) : base(options)
+        public GerenciamentoFrotaVeiculoContext(DbContextOptions<GerenciamentoFrotaVeiculoContext> options) : base(options)
         {
         }
 

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GerenciamentoFrotaVeiculo.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8a2c04c19c6a1c61f0a400c20487534fdcb1d7c5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5af655d5f7ed5f288385be46c2533354614e9807")]
 [assembly: System.Reflection.AssemblyProductAttribute("GerenciamentoFrotaVeiculo.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GerenciamentoFrotaVeiculo.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

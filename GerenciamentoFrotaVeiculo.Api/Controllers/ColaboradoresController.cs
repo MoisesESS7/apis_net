@@ -1,4 +1,5 @@
 ﻿using GerenciamentoFrotaVeiculo.Models;
+using GerenciamentoFrotaVeiculo.Repository;
 using GerenciamentoFrotaVeiculo.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,9 +17,9 @@ namespace GerenciamentoFrotaVeiculo.Controllers
         }
 
         [HttpGet("colaboradores/{id}")]
-        public async Task<IActionResult> GetAsync(int id)
+        public async Task<IActionResult> GetByIdAsync(int id)
         {
-            var colaborador = await _colaboradorRepository.GetAsync(id);
+            var colaborador = await _colaboradorRepository.GetByIdAsync(id);
 
             if(colaborador is null)
             {
@@ -67,7 +68,7 @@ namespace GerenciamentoFrotaVeiculo.Controllers
                 return BadRequest();
             }
 
-            var colaboradorDb = await _colaboradorRepository.GetAsync(id);
+            var colaboradorDb = await _colaboradorRepository.GetByIdAsync(id);
 
             if(colaboradorDb is null)
             {
@@ -82,7 +83,7 @@ namespace GerenciamentoFrotaVeiculo.Controllers
         [HttpDelete("colaboradores/{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            var colaborador = await _colaboradorRepository.GetAsync(id);
+            var colaborador = await _colaboradorRepository.GetByIdAsync(id);
 
             if (colaborador is null)
             {

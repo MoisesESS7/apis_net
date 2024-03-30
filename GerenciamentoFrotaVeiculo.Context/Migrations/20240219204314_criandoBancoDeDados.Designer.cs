@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GerenciamentoFrotaVeiculo.Context.Migrations
 {
-    [DbContext(typeof(ECommerceContext))]
+    [DbContext(typeof(GerenciamentoFrotaVeiculoContext))]
     [Migration("20240219204314_criandoBancoDeDados")]
     partial class criandoBancoDeDados
     {

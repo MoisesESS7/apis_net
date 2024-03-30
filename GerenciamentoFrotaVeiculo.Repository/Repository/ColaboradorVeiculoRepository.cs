@@ -7,14 +7,14 @@ namespace GerenciamentoFrotaVeiculo.Repository.Repository
 {
     public class ColaboradorVeiculoRepository : IColaboradorVeiculoRepository
     {
-        private readonly ECommerceContext _context;
+        private readonly GerenciamentoFrotaVeiculoContext _context;
 
-        public ColaboradorVeiculoRepository(ECommerceContext context)
+        public ColaboradorVeiculoRepository(GerenciamentoFrotaVeiculoContext context)
         {
             _context = context;
         }
 
-        public async Task<ColaboradorVeiculo> GetAsync(int id_1, int id_2)
+        public async Task<ColaboradorVeiculo> GetByIdAsync(int id_1, int id_2)
         {
             var colaboradorVeiculo = await _context.ColaboradoresVeiculos.FindAsync(id_1, id_2);
 

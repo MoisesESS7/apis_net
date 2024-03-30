@@ -7,13 +7,14 @@ using GerenciamentoFrotaVeiculo.Context;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<ECommerceContext>(option =>
-option.UseSqlServer(builder.Configuration.GetConnectionString("ConectionStringECommerceApi")));
+builder.Services.AddDbContext<GerenciamentoFrotaVeiculoContext>(option =>
+option.UseSqlServer(builder.Configuration.GetConnectionString("ConectionStringDataBase")));
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

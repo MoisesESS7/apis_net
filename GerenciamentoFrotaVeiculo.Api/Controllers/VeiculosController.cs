@@ -16,9 +16,9 @@ namespace GerenciamentoFrotaVeiculo.Controllers
         }
 
         [HttpGet("veiculos/{id}")]
-        public async Task<IActionResult> GetAsync(int id)
+        public async Task<IActionResult> GetByIdAsync(int id)
         {
-            var veiculo = await _veiculoRepository.GetAsync(id);
+            var veiculo = await _veiculoRepository.GetByIdAsync(id);
 
             if (veiculo is null)
             {
@@ -67,7 +67,7 @@ namespace GerenciamentoFrotaVeiculo.Controllers
                 return BadRequest();
             }
 
-            var veiculoDb = await _veiculoRepository.GetAsync(id);
+            var veiculoDb = await _veiculoRepository.GetByIdAsync(id);
 
             if (veiculoDb is null)
             {
@@ -82,7 +82,7 @@ namespace GerenciamentoFrotaVeiculo.Controllers
         [HttpDelete("veiculos/{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            var veiculo = await _veiculoRepository.GetAsync(id);
+            var veiculo = await _veiculoRepository.GetByIdAsync(id);
 
             if (veiculo is null)
             {
