@@ -27,7 +27,7 @@ namespace GerenciamentoFrotaVeiculo.Controllers
 
             if(colaboradorVeiculo is null)
             {
-                return NotFound();
+                return NotFound("Vínculo entre Colaborador e Veículo não econtrado.");
             }
 
             return Ok(colaboradorVeiculo);
@@ -40,7 +40,7 @@ namespace GerenciamentoFrotaVeiculo.Controllers
 
             if(colaboradoresVeiculos.Count == 0)
             {
-                return NotFound();
+                return NotFound("Nenhum vínculo entre Colaboradores e Veículos foram econtrados.");
             }
 
             return Ok(colaboradoresVeiculos);
@@ -51,13 +51,13 @@ namespace GerenciamentoFrotaVeiculo.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest("Estado do modelo inválido.");
             }
 
             if(colaboradorVeiculo.ColaboradorId != colaboradorId
                 || colaboradorVeiculo.VeiculoId != veiculoId)
             {
-                return BadRequest();
+                return BadRequest("Os id's da requisição e da url não condizem.");
             }
 
             var colaborador = await _colaboradorRepository.GetByIdAsync(colaboradorId);
@@ -65,7 +65,7 @@ namespace GerenciamentoFrotaVeiculo.Controllers
 
             if(colaborador is null || veiculo is null)
             {
-                return NotFound();
+                return NotFound("Vínculo entre Colaborador e Veículo não econtrado.");
             }
 
             colaboradorVeiculo.Colaborador = colaborador;
@@ -82,13 +82,13 @@ namespace GerenciamentoFrotaVeiculo.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest("Estado do modelo inválido.");
             }
 
             if (colaboradorVeiculoRequisicao.ColaboradorId != colaboradorId
                 || colaboradorVeiculoRequisicao.VeiculoId != veiculoId)
             {
-                return BadRequest();
+                return BadRequest("Os id's da requisição e da url não condizem.");
             }
 
             var colaboradorVeiculoDb = 
@@ -96,7 +96,7 @@ namespace GerenciamentoFrotaVeiculo.Controllers
 
             if(colaboradorVeiculoDb is null)
             {
-                return NotFound();
+                return NotFound("Vínculo entre Colaborador e Veículo não econtrado.");
             }
 
             await _colaboradorVeiculoRepository
@@ -112,7 +112,7 @@ namespace GerenciamentoFrotaVeiculo.Controllers
 
             if(colaboradorVeiculo is null)
             {
-                return NotFound();
+                return NotFound("Vinculo entre Colaborador e Veículo não econtrado.");
             }
 
             await _colaboradorVeiculoRepository.DeleteAsync(colaboradorVeiculo);

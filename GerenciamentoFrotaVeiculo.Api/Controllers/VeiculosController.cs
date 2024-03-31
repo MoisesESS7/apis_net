@@ -22,7 +22,7 @@ namespace GerenciamentoFrotaVeiculo.Controllers
 
             if (veiculo is null)
             {
-                return NotFound();
+                return NotFound("Veículo não encontado.");
             }
 
             return Ok(veiculo);
@@ -35,7 +35,7 @@ namespace GerenciamentoFrotaVeiculo.Controllers
 
             if (veiculos.Count == 0)
             {
-                return NotFound();
+                return NotFound("Nenhum veículo foi encontrado.");
             }
 
             return Ok(veiculos);
@@ -46,7 +46,7 @@ namespace GerenciamentoFrotaVeiculo.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest("Estado do modelo inválido.");
             }
 
             await _veiculoRepository.CreateAsync(veiculo);
@@ -59,19 +59,19 @@ namespace GerenciamentoFrotaVeiculo.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest("Estado do modelo inválido.");
             }
 
             if (veiculoRequisicao.Id != id)
             {
-                return BadRequest();
+                return BadRequest("Os id's da requisição e da url não condizem.");
             }
 
             var veiculoDb = await _veiculoRepository.GetByIdAsync(id);
 
             if (veiculoDb is null)
             {
-                return NotFound();
+                return NotFound("Veículo não encontado.");
             }
 
             await _veiculoRepository.UpdateAsync(veiculoDb, veiculoRequisicao);
@@ -86,7 +86,7 @@ namespace GerenciamentoFrotaVeiculo.Controllers
 
             if (veiculo is null)
             {
-                return NotFound();
+                return NotFound("Veículo não encontado.");
             }
 
             await _veiculoRepository.DeleteAsync(veiculo);

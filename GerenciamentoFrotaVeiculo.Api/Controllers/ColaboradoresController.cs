@@ -22,7 +22,7 @@ namespace GerenciamentoFrotaVeiculo.Controllers
 
             if(colaborador is null)
             {
-                return NotFound();
+                return NotFound("Colaborador não encontrado.");
             }
 
             return Ok(colaborador);
@@ -35,7 +35,7 @@ namespace GerenciamentoFrotaVeiculo.Controllers
 
             if(colaboradores.Count == 0)
             {
-                return NotFound();
+                return NotFound("Nenhum colaborador foi encontrado.");
             }
 
             return Ok(colaboradores);
@@ -46,7 +46,7 @@ namespace GerenciamentoFrotaVeiculo.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest("Estado do modelo inválido.");
             }
 
             await _colaboradorRepository.CreateAsync(colaborador);
@@ -59,19 +59,19 @@ namespace GerenciamentoFrotaVeiculo.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest("Estado do modelo inválido.");
             }
 
             if(colaboradorRequisicao.Id != id)
             {
-                return BadRequest();
+                return BadRequest("Os id's da requisição e da url não condizem.");
             }
 
             var colaboradorDb = await _colaboradorRepository.GetByIdAsync(id);
 
             if(colaboradorDb is null)
             {
-                return NotFound();
+                return NotFound("Colaborador não encontrado.");
             }
 
             await _colaboradorRepository.UpdateAsync(colaboradorRequisicao, colaboradorDb);
@@ -86,7 +86,7 @@ namespace GerenciamentoFrotaVeiculo.Controllers
 
             if (colaborador is null)
             {
-                return NotFound();
+                return NotFound("Colaborador não encontrado.");
             }
 
             await _colaboradorRepository.DeleteAsync(colaborador);
