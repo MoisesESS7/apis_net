@@ -1,0 +1,6 @@
+@GerenciamentoFrotaVeiculo.Web.Server_HostAddress = http://localhost:5160
+
+GET {{GerenciamentoFrotaVeiculo.Web.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

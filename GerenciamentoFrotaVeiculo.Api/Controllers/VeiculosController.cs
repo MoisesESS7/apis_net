@@ -1,10 +1,12 @@
-﻿using GerenciamentoFrotaVeiculo.Models;
-using GerenciamentoFrotaVeiculo.Repository.IRepository;
+﻿using GerenciamentoFrotaVeiculo.Api.Hypermedia.Filters;
+using GerenciamentoFrotaVeiculo.Api.Repository.IRepository;
+using GerenciamentoFrotaVeiculo.Data.ValueObject;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GerenciamentoFrotaVeiculo.Controllers
 {
-    [Route("api/")]
+    [ApiVersion("1")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public class VeiculosController : ControllerBase
     {
@@ -15,83 +17,98 @@ namespace GerenciamentoFrotaVeiculo.Controllers
             _veiculoRepository = veiculoRepository;
         }
 
-        [HttpGet("veiculos/{id}")]
+        [HttpGet("{id}")]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
+            if (id < 1)
+            {
+                return BadRequest(new { message = "Id inválido.", erroCode = "BAD_REQUEST" });
+            }
+
             var veiculo = await _veiculoRepository.GetByIdAsync(id);
 
             if (veiculo is null)
             {
-                return NotFound("Veículo não encontado.");
+                return NotFound(new { message = "Veículo não encontado.", erroCode = "VEICULO_NOT_FOUND" });
             }
 
             return Ok(veiculo);
         }
 
-        [HttpGet("veiculos")]
+        [HttpGet]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public async Task<IActionResult> GetAllAsync()
         {
             var veiculos = await _veiculoRepository.GetAllAsync();
 
             if (veiculos.Count == 0)
             {
-                return NotFound("Nenhum veículo foi encontrado.");
+                return NotFound(new { message = "Nenhum veículo foi encontrado.", erroCode = "VEICULOS_NOT_FOUND" });
             }
 
             return Ok(veiculos);
         }
 
-        [HttpPost("veiculos")]
-        public async Task<IActionResult> CreateAsync([FromBody] Veiculo veiculo)
+        [HttpPost]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public async Task<IActionResult> CreateAsync([FromBody] VeiculoVO veiculoVO)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest("Estado do modelo inválido.");
+                return BadRequest(new { message = "Estado do modelo inválido.", erroCode = "BAD_REQUEST" });
             }
 
-            await _veiculoRepository.CreateAsync(veiculo);
+            var vo = await _veiculoRepository.CreateAsync(veiculoVO);
 
-            return Ok(veiculo);
+            return Ok(vo);
         }
 
-        [HttpPut("veiculos/{id}")]
-        public async Task<IActionResult> UpdateAsync([FromBody] Veiculo veiculoRequisicao, int id)
+        [HttpPut("{id}")]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public async Task<IActionResult> UpdateAsync([FromBody] VeiculoVO veiculoRequisicaoVO, int id)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest("Estado do modelo inválido.");
+                return BadRequest(new { message = "Estado do modelo inválido.", erroCode = "BAD_REQUEST" });
             }
 
-            if (veiculoRequisicao.Id != id)
+            if (veiculoRequisicaoVO.Id != id || id < 1)
             {
-                return BadRequest("Os id's da requisição e da url não condizem.");
+                return BadRequest(new { message = "Os id's da requisição e da url não condizem ou são inválidos.", erroCode = "BAD_REQUEST" });
             }
 
-            var veiculoDb = await _veiculoRepository.GetByIdAsync(id);
+            var veiculoDbVO = await _veiculoRepository.GetByIdAsync(id);
 
-            if (veiculoDb is null)
+            if (veiculoDbVO is null)
             {
-                return NotFound("Veículo não encontado.");
+                return NotFound(new { message = "Veículo não encontado.", erroCode = "VEICULO_NOT_FOUND" });
             }
 
-            await _veiculoRepository.UpdateAsync(veiculoDb, veiculoRequisicao);
+            var vo = await _veiculoRepository.UpdateAsync(veiculoDbVO, veiculoRequisicaoVO);
 
-            return Ok(veiculoRequisicao);
+            return Ok(vo);
         }
 
-        [HttpDelete("veiculos/{id}")]
+        [HttpDelete("{id}")]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            var veiculo = await _veiculoRepository.GetByIdAsync(id);
-
-            if (veiculo is null)
+            if (id < 1)
             {
-                return NotFound("Veículo não encontado.");
+                return BadRequest(new { MESSAGE = "Id inválido.", erroCode = "BAD_REQUEST" });
             }
 
-            await _veiculoRepository.DeleteAsync(veiculo);
+            var veiculoVO = await _veiculoRepository.GetByIdAsync(id);
 
-            return Ok(veiculo);
+            if (veiculoVO is null)
+            {
+                return NotFound(new { message = "Veículo não encontado.", erroCode = "VEICULO_NOT_FOUND" });
+            }
+
+            var responsta = await _veiculoRepository.DeleteAsync(veiculoVO);
+
+            return Ok(responsta);
         }
     }
 }

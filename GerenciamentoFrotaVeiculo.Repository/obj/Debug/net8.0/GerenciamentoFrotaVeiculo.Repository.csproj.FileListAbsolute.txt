@@ -25,10 +25,10 @@ C:\EnviarParaGitHub\apis_net\GerenciamentoFrotaVeiculo.Repository\obj\Debug\net8
 C:\EnviarParaGitHub\apis_net\GerenciamentoFrotaVeiculo.Repository\obj\Debug\net8.0\GerenciamentoFrotaVeiculo.Repository.AssemblyInfo.cs
 C:\EnviarParaGitHub\apis_net\GerenciamentoFrotaVeiculo.Repository\obj\Debug\net8.0\GerenciamentoFrotaVeiculo.Repository.csproj.CoreCompileInputs.cache
 C:\EnviarParaGitHub\apis_net\GerenciamentoFrotaVeiculo.Repository\obj\Debug\net8.0\GerenciamentoFrotaVeiculo.Repository.sourcelink.json
-C:\EnviarParaGitHub\apis_net\GerenciamentoFrotaVeiculo.Repository\obj\Debug\net8.0\GerenciamentoFrotaVeiculo.Repository.csproj.CopyComplete
 C:\EnviarParaGitHub\apis_net\GerenciamentoFrotaVeiculo.Repository\obj\Debug\net8.0\GerenciamentoFrotaVeiculo.Repository.dll
 C:\EnviarParaGitHub\apis_net\GerenciamentoFrotaVeiculo.Repository\obj\Debug\net8.0\refint\GerenciamentoFrotaVeiculo.Repository.dll
 C:\EnviarParaGitHub\apis_net\GerenciamentoFrotaVeiculo.Repository\obj\Debug\net8.0\GerenciamentoFrotaVeiculo.Repository.pdb
 C:\EnviarParaGitHub\apis_net\GerenciamentoFrotaVeiculo.Repository\obj\Debug\net8.0\ref\GerenciamentoFrotaVeiculo.Repository.dll
 C:\EnviarParaGitHub\apis_net\GerenciamentoFrotaVeiculo.Repository\bin\Debug\net8.0\GerenciamentoFrotaVeiculo.Context.dll
 C:\EnviarParaGitHub\apis_net\GerenciamentoFrotaVeiculo.Repository\bin\Debug\net8.0\GerenciamentoFrotaVeiculo.Context.pdb
+C:\EnviarParaGitHub\apis_net\GerenciamentoFrotaVeiculo.Repository\obj\Debug\net8.0\Gerencia.7758B562.Up2Date

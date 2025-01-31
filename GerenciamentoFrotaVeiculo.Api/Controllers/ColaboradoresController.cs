@@ -1,97 +1,169 @@
-﻿using GerenciamentoFrotaVeiculo.Models;
-using GerenciamentoFrotaVeiculo.Repository.IRepository;
+﻿using GerenciamentoFrotaVeiculo.Api.Business;
+using GerenciamentoFrotaVeiculo.Api.Hypermedia.Filters;
+using GerenciamentoFrotaVeiculo.Data.ValueObject;
+using GerenciamentoFrotaVeiculo.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GerenciamentoFrotaVeiculo.Controllers
 {
-    [Route("api/")]
+    [ApiVersion("1")]
+    //[ApiVersion("2")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public class ColaboradoresController : ControllerBase
     {
-        private readonly IColaboradorRepository _colaboradorRepository;
+        private readonly IColaboradorBusiness _colaboradorBusiness;
 
-        public ColaboradoresController(IColaboradorRepository colaboradorRepository)
+        public ColaboradoresController(IColaboradorBusiness colaboradorRepository)
         {
-            _colaboradorRepository = colaboradorRepository;
+            _colaboradorBusiness = colaboradorRepository;
         }
 
-        [HttpGet("colaboradores/{id}")]
-        public async Task<IActionResult> GetByIdAsync(int id)
+        //[ApiVersion("2")]
+        [HttpGet("{id}")]
+        [ProducesResponseType(200, Type = typeof(ColaboradorVO))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public async Task<IActionResult> FindByIdAsync(int id)
         {
-            var colaborador = await _colaboradorRepository.GetByIdAsync(id);
-
-            if(colaborador is null)
+            if (id < 1)
             {
-                return NotFound("Colaborador não encontrado.");
+                return BadRequest(new { message = "Id inválido.", erroCode = "BAD_REQUEST" });
             }
 
-            return Ok(colaborador);
-        }
+            var vo = await _colaboradorBusiness.FindByIdAsync(id);
 
-        [HttpGet("colaboradores")]
-        public async Task<IActionResult> GetAllAsync()
-        {
-            var colaboradores = await _colaboradorRepository.GetAllAsync();
-
-            if(colaboradores.Count == 0)
+            if (vo is null)
             {
-                return NotFound("Nenhum colaborador foi encontrado.");
+                return NotFound(new { message = "Colaborador não encontrado.", errorCode = "COLABORADOR_NOT_FOUND" });
             }
 
-            return Ok(colaboradores);
+            return Ok(vo);
         }
 
-        [HttpPost("colaboradores")]
-        public async Task<IActionResult> CreateAsync([FromBody] Colaborador colaborador)
+        [HttpGet("incluir-veiculos/{id}")]
+        [ProducesResponseType(200, Type = typeof(ColaboradorVO))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public async Task<IActionResult> FindByIdIncludeVeiculosAsync(int id)
+        {            
+            if (id < 1)
+            {
+                return BadRequest(new { message = "Id inválido.", erroCode = "BAD_REQUEST" });
+            }
+
+            var vo = await _colaboradorBusiness.FindByIdIncludeVeiculosAsync(id);
+
+            if (vo is null)
+            {
+                return NotFound(new { message = "Colaborador não encontrado.", errorCode = "COLABORADOR_NOT_FOUND" });
+            }
+
+            return Ok(vo);
+        }
+
+        [HttpGet("incluir-veiculos")]
+        [ProducesResponseType(200, Type = typeof(ColaboradorVO))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public async Task<IActionResult> FindAllIncludeVeiculosAsync()
+        {
+
+            var vo = await _colaboradorBusiness.FindAllIncludeVeiculosAsync();
+
+            if (vo.Count == 0)
+            {
+                return NotFound(new { message = "Nenhum colaborador foi encontrado.", errorCode = "COLABORADOR_NOT_FOUND" });
+            }
+
+            return Ok(vo);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(200, Type = typeof(List<ColaboradorVO>))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public async Task<IActionResult> FindAllAsync()
+        {
+            var vo = await _colaboradorBusiness.FindAllAsync();
+
+            if (vo is null)
+            {
+                return NotFound(new { message = "Nenhum colaborador foi encontrado.", errorCode = "COLABORADOR_NOT_FOUND" });
+            }
+
+            return Ok(vo);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(200, Type = typeof(ColaboradorVO))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public async Task<IActionResult> CreateAsync([FromBody] ColaboradorVO colaboradorVO)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest("Estado do modelo inválido.");
+                return BadRequest(new { message = "Estado do modelo inválido.", erroCode = "BAD_REQUEST" });
             }
 
-            await _colaboradorRepository.CreateAsync(colaborador);
+            var vo = await _colaboradorBusiness.CreateAsync(colaboradorVO);
 
-            return Ok(colaborador);
+            return Ok(vo);
         }
 
-        [HttpPut("colaboradores/{id}")]
-        public async Task<IActionResult> UpdateAsync([FromBody] Colaborador colaboradorRequisicao, int id)
+        [HttpPut]
+        [ProducesResponseType(200, Type = typeof(ColaboradorVO))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public async Task<IActionResult> UpdateAsync([FromBody] ColaboradorVO colaboradorVO)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest("Estado do modelo inválido.");
+                return BadRequest(new { message = "Estado do modelo inválido.", erroCode = "BAD_REQUEST" });
             }
 
-            if(colaboradorRequisicao.Id != id)
+            var vo = await _colaboradorBusiness.UpdateAsync(colaboradorVO);
+
+            if (vo is null)
             {
-                return BadRequest("Os id's da requisição e da url não condizem.");
+                return BadRequest(new { message = "Operação atualizar falhou.", errorCode = "BAD_REQUEST" });
             }
 
-            var colaboradorDb = await _colaboradorRepository.GetByIdAsync(id);
-
-            if(colaboradorDb is null)
-            {
-                return NotFound("Colaborador não encontrado.");
-            }
-
-            await _colaboradorRepository.UpdateAsync(colaboradorRequisicao, colaboradorDb);
-
-            return Ok(colaboradorRequisicao);
+            return Ok(vo);
         }
 
-        [HttpDelete("colaboradores/{id}")]
+        [HttpDelete("{id}")]
+        [ProducesResponseType(204, Type = typeof(ColaboradorVO))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            var colaborador = await _colaboradorRepository.GetByIdAsync(id);
-
-            if (colaborador is null)
+            if (id < 1)
             {
-                return NotFound("Colaborador não encontrado.");
+                return BadRequest(new { message = "Id inválido.", erroCode = "BAD_REQUEST" });
             }
 
-            await _colaboradorRepository.DeleteAsync(colaborador);
-            
-            return Ok(colaborador);
+            var responsta = await _colaboradorBusiness.DeleteByIdAsync(id);
+                        
+            if (!responsta)
+            {
+                return NotFound(new { message = "Colaborador não encontrado.", errorCode = "COLABORADOR_NOT_FOUND" });
+            }
+
+            return NoContent();
         }
     }
 }

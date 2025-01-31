@@ -1,8 +1,9 @@
-﻿namespace GerenciamentoFrotaVeiculo.Models
+﻿using GerenciamentoFrotaVeiculo.Models.Models.Base;
+
+namespace GerenciamentoFrotaVeiculo.Models
 {
-    public class Veiculo
+    public class Veiculo : BaseEntity
     {
-        public int Id { get; set; }
         public string Marca { get; set; } = string.Empty;
         public string Modelo { get; set; } = string.Empty;
         public string Placa { get; set; } = string.Empty;

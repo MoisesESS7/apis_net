@@ -8,6 +8,6 @@ namespace GerenciamentoFrotaVeiculo.Repository.IRepository
         Task<List<Colaborador>> GetAllAsync();
         Task CreateAsync(Colaborador colaborador);
         Task UpdateAsync(Colaborador colaboradorRequisicao, Colaborador colaboradorDb);
-        Task DeleteAsync(Colaborador colaborador);
+        Task<bool> DeleteAsync(Colaborador colaborador);
     }
 }

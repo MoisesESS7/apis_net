@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GerenciamentoFrotaVeiculo.Context.Migrations
 {
-    [DbContext(typeof(GerenciamentoFrotaVeiculoContext))]
+    [DbContext(typeof(SqlServerContext))]
     partial class ECommerceContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

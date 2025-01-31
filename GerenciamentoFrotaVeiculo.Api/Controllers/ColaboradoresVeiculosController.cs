@@ -1,123 +1,141 @@
-﻿using GerenciamentoFrotaVeiculo.Models;
-using GerenciamentoFrotaVeiculo.Repository.IRepository;
+﻿using GerenciamentoFrotaVeiculo.Api.Data.Contract;
+using GerenciamentoFrotaVeiculo.Api.Hypermedia.Filters;
+using GerenciamentoFrotaVeiculo.Api.Repository.IRepository;
+using GerenciamentoFrotaVeiculo.Data.ValueObject;
+using GerenciamentoFrotaVeiculo.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GerenciamentoFrotaVeiculo.Controllers
 {
-    [Route("api/")]
+    [ApiVersion("1")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public class ColaboradoresVeiculosController : ControllerBase
     {
         private readonly IColaboradorVeiculoRepository _colaboradorVeiculoRepository;
         private readonly IColaboradorRepository _colaboradorRepository;
+        private readonly IParser<ColaboradorVO, Colaborador> _voToColaboradorParse;
         private readonly IVeiculoRepository _veiculoRepository;
 
-        public ColaboradoresVeiculosController(IColaboradorVeiculoRepository colaboradorVeiculoRepository, IColaboradorRepository colaboradorRepository, IVeiculoRepository veiculo)
+        public ColaboradoresVeiculosController(IColaboradorVeiculoRepository colaboradorVeiculoRepository,
+            IColaboradorRepository colaboradorRepository, IParser<ColaboradorVO, Colaborador> voToColaboradorParse,
+            IVeiculoRepository veiculoRepository)
         {
-            _colaboradorVeiculoRepository = colaboradorVeiculoRepository;
-            _colaboradorRepository = colaboradorRepository;
-            _veiculoRepository = veiculo;
+            _colaboradorVeiculoRepository = colaboradorVeiculoRepository ?? throw new ArgumentNullException(nameof(colaboradorVeiculoRepository));
+            _colaboradorRepository = colaboradorRepository ?? throw new ArgumentNullException(nameof(colaboradorRepository));
+            _voToColaboradorParse = voToColaboradorParse ?? throw new ArgumentNullException(nameof(voToColaboradorParse));
+            _veiculoRepository = veiculoRepository ?? throw new ArgumentNullException(nameof(veiculoRepository));
         }
 
-        [HttpGet("colaboradores/{colaboradorId}/veiculos/{veiculoId}")]
-        public async Task<IActionResult> GetByIdAsync(int colaboradorId, int veiculoId)
+        [HttpGet("{id}")]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public async Task<IActionResult> GetByIdAsync(int id)
         {
-            var colaboradorVeiculo = await _colaboradorVeiculoRepository
-                .GetByIdAsync(colaboradorId, veiculoId);
-
-            if(colaboradorVeiculo is null)
+            if (id < 1)
             {
-                return NotFound("Vínculo entre Colaborador e Veículo não econtrado.");
+                return BadRequest(new { message = "Id inválido.", erroCode = "BAD_REQUEST" });
+            }
+
+            var colaboradorVeiculo = await _colaboradorVeiculoRepository
+                .GetByIdAsync(id);
+
+            if (colaboradorVeiculo is null)
+            {
+                return NotFound(new { message = "Vínculo entre Colaborador e Veículo não econtrado.", erroCode = "VINCULO_NOT_FOUND" });
             }
 
             return Ok(colaboradorVeiculo);
         }
 
-        [HttpGet("colaboradores/veiculos")]
+        [HttpGet]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public async Task<IActionResult> GetAllAsync()
         {
-            var colaboradoresVeiculos = await _colaboradorVeiculoRepository.GetAllAsync();
+            var colaboradoresVeiculosVO = await _colaboradorVeiculoRepository.GetAllAsync();
 
-            if(colaboradoresVeiculos.Count == 0)
+            if (colaboradoresVeiculosVO.Count == 0)
             {
-                return NotFound("Nenhum vínculo entre Colaboradores e Veículos foram econtrados.");
+                return NotFound(new { message = "Nenhum vínculo entre Colaboradores e Veículos foram econtrados.", erroCode = "VINCULOS_NOT_FOUND" });
             }
 
-            return Ok(colaboradoresVeiculos);
+            return Ok(colaboradoresVeiculosVO);
         }
 
-        [HttpPost("colaboradores/{colaboradorId}/veiculos/{veiculoId}")]
-        public async Task<IActionResult> CreateAsync([FromBody] ColaboradorVeiculo colaboradorVeiculo, int colaboradorId, int veiculoId)
+        [HttpPost("{colaboradorId}/{veiculoId}")]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public async Task<IActionResult> CreateAsync([FromBody] ColaboradorVeiculoVO colaboradorVeiculoVO, int colaboradorId, int veiculoId)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest("Estado do modelo inválido.");
+                return BadRequest(new { message = "Estado do modelo inválido.", erroCode = "BAD_REQUEST" });
             }
 
-            if(colaboradorVeiculo.ColaboradorId != colaboradorId
-                || colaboradorVeiculo.VeiculoId != veiculoId)
+            if (colaboradorVeiculoVO.ColaboradorId != colaboradorId
+                || colaboradorVeiculoVO.VeiculoId != veiculoId
+                || colaboradorVeiculoVO.VeiculoId < 1)
             {
-                return BadRequest("Os id's da requisição e da url não condizem.");
+                return BadRequest(new { message = "Os id's da requisição e da url não condizem ou são inválidos.", erroCode = "BAD_REQUEST" });
             }
 
-            var colaborador = await _colaboradorRepository.GetByIdAsync(colaboradorId);
-            var veiculo = await _veiculoRepository.GetByIdAsync(veiculoId);
+            var vo = await _colaboradorVeiculoRepository.CreateAsync(colaboradorVeiculoVO);
 
-            if(colaborador is null || veiculo is null)
+            if (vo is null)
             {
-                return NotFound("Vínculo entre Colaborador e Veículo não econtrado.");
+                return BadRequest(new { message = "Erro ao cria vinculo.", erroCode = "BAD_REQUEST" });
             }
 
-            colaboradorVeiculo.Colaborador = colaborador;
-            colaboradorVeiculo.Veiculo = veiculo;
-            colaboradorVeiculo.DataInicioVinculo = DateTimeOffset.Now;
-
-            await _colaboradorVeiculoRepository.CreateAsync(colaboradorVeiculo);
-
-            return Ok(colaboradorVeiculo);
+            return Ok(vo);
         }
 
-        [HttpPut("colaboradores/{colaboradorId}/veiculos/{veiculoId}")]
-        public async Task<IActionResult> UpdateAsync([FromBody] ColaboradorVeiculo colaboradorVeiculoRequisicao, int colaboradorId, int veiculoId)
+        [HttpPut("{colaboradorId}/{veiculoId}")]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public async Task<IActionResult> UpdateAsync([FromBody] ColaboradorVeiculoVO colaboradorVeiculoRequisicaoVO, int colaboradorId, int veiculoId)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest("Estado do modelo inválido.");
+                return BadRequest(new { message = "Estado do modelo inválido.", erroCode = "BAD_REQUEST" });
             }
 
-            if (colaboradorVeiculoRequisicao.ColaboradorId != colaboradorId
-                || colaboradorVeiculoRequisicao.VeiculoId != veiculoId)
+            if (colaboradorVeiculoRequisicaoVO.ColaboradorId != colaboradorId
+                || colaboradorVeiculoRequisicaoVO.VeiculoId != veiculoId
+                || colaboradorVeiculoRequisicaoVO.VeiculoId < 1)
             {
-                return BadRequest("Os id's da requisição e da url não condizem.");
+                return BadRequest(new { message = "Os id's da requisição e da url não condizem ou são inválidos.", erroCode = "BAD_REQUEST" });
             }
 
-            var colaboradorVeiculoDb = 
-                await _colaboradorVeiculoRepository.GetByIdAsync(colaboradorId, veiculoId);
+            var colaboradorVeiculoDbVO =
+                await _colaboradorVeiculoRepository.GetByIdAsync(colaboradorVeiculoRequisicaoVO.Id);
 
-            if(colaboradorVeiculoDb is null)
+            if (colaboradorVeiculoDbVO is null)
             {
-                return NotFound("Vínculo entre Colaborador e Veículo não econtrado.");
+                return NotFound(new { message = "Vínculo entre Colaborador e Veículo não econtrado.", erroCode = "VINCULO_NOT_FOUND" });
             }
 
-            await _colaboradorVeiculoRepository
-                .UpdateAsync(colaboradorVeiculoRequisicao, colaboradorVeiculoDb);
+            var vo = await _colaboradorVeiculoRepository
+                .UpdateAsync(colaboradorVeiculoRequisicaoVO, colaboradorVeiculoDbVO);
 
-            return Ok(colaboradorVeiculoRequisicao);
+            return Ok(vo);
         }
 
-        [HttpDelete("colaboradores/{colaboradorId}/veiculos/{veiculoId}")]
-        public async Task<IActionResult> DeleteAsync(int colaboradorId, int veiculoId)
+        [HttpDelete("{id}")]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public async Task<IActionResult> DeleteAsync(int id)
         {
-            var colaboradorVeiculo = await _colaboradorVeiculoRepository.GetByIdAsync(colaboradorId, veiculoId);
-
-            if(colaboradorVeiculo is null)
+            if (id < 1)
             {
-                return NotFound("Vinculo entre Colaborador e Veículo não econtrado.");
+                return BadRequest(new { message = "Id inválido.", erroCode = "BAD_REQUEST" });
             }
 
-            await _colaboradorVeiculoRepository.DeleteAsync(colaboradorVeiculo);
+            var colaboradorVeiculoVO = await _colaboradorVeiculoRepository.GetByIdAsync(id);
 
-            return Ok(colaboradorVeiculo);
+            if (colaboradorVeiculoVO is null)
+            {
+                return NotFound(new { message = "Vinculo entre Colaborador e Veículo não econtrado.", errorCode = "COLABORADOR_NOT_FOUND" });
+            }
+
+            var resposta = await _colaboradorVeiculoRepository.DeleteAsync(colaboradorVeiculoVO);
+
+            return Ok(resposta);
         }
     }
 }

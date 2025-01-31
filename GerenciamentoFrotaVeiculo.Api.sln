@@ -5,11 +5,11 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GerenciamentoFrotaVeiculo.Api", "GerenciamentoFrotaVeiculo.Api\GerenciamentoFrotaVeiculo.Api.csproj", "{6F59C25B-11A9-496B-B880-C186B7587487}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GerenciamentoFrotaVeiculo.Models", "GerenciamentoFrotaVeiculo.Models\GerenciamentoFrotaVeiculo.Models.csproj", "{1EC1EEE6-C391-4463-B2BA-73DD81DCFE72}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Servicos", "Servicos", "{B480D531-2110-44EE-9655-DF99684D821D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GerenciamentoFrotaVeiculo.Repository", "GerenciamentoFrotaVeiculo.Repository\GerenciamentoFrotaVeiculo.Repository.csproj", "{4F48B31C-957A-4779-B70C-CD0285CE0872}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrontEnd", "FrontEnd", "{D2C0B343-024C-48B2-B500-F0873D03B597}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GerenciamentoFrotaVeiculo.Context", "GerenciamentoFrotaVeiculo.Context\GerenciamentoFrotaVeiculo.Context.csproj", "{6926DFAA-7341-4523-BE7F-6DA0BC280FE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GerenciamentoFrotaVeiculo.WebUI", "GerenciamentoFrotaVeiculo.WebUI\GerenciamentoFrotaVeiculo.WebUI.csproj", "{78CAAB5C-54A5-4980-8DC8-9B2D62AE08EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,21 +21,17 @@ Global
 		{6F59C25B-11A9-496B-B880-C186B7587487}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F59C25B-11A9-496B-B880-C186B7587487}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F59C25B-11A9-496B-B880-C186B7587487}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1EC1EEE6-C391-4463-B2BA-73DD81DCFE72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1EC1EEE6-C391-4463-B2BA-73DD81DCFE72}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1EC1EEE6-C391-4463-B2BA-73DD81DCFE72}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1EC1EEE6-C391-4463-B2BA-73DD81DCFE72}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4F48B31C-957A-4779-B70C-CD0285CE0872}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4F48B31C-957A-4779-B70C-CD0285CE0872}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4F48B31C-957A-4779-B70C-CD0285CE0872}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4F48B31C-957A-4779-B70C-CD0285CE0872}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6926DFAA-7341-4523-BE7F-6DA0BC280FE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6926DFAA-7341-4523-BE7F-6DA0BC280FE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6926DFAA-7341-4523-BE7F-6DA0BC280FE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6926DFAA-7341-4523-BE7F-6DA0BC280FE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78CAAB5C-54A5-4980-8DC8-9B2D62AE08EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78CAAB5C-54A5-4980-8DC8-9B2D62AE08EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78CAAB5C-54A5-4980-8DC8-9B2D62AE08EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78CAAB5C-54A5-4980-8DC8-9B2D62AE08EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6F59C25B-11A9-496B-B880-C186B7587487} = {B480D531-2110-44EE-9655-DF99684D821D}
+		{78CAAB5C-54A5-4980-8DC8-9B2D62AE08EB} = {D2C0B343-024C-48B2-B500-F0873D03B597}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {04244C19-AF52-4DFE-A8CD-1D167B17304E}
