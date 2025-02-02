@@ -17,7 +17,6 @@ namespace GerenciamentoFrotaVeiculo.Models
                 _nome = value;
             }
         }
-
         private int _idade;
         public int Idade
         {
@@ -38,13 +37,11 @@ namespace GerenciamentoFrotaVeiculo.Models
                 }
             }
         }
-
         public string Cpf { get; set; } = null!;
         public string? CarteiraHabilitacao { get; set; }
         public string? Endereco { get; set; }
         public string? EstadoCivil { get; set; }
         public string? Dependente { get; set; }
-
         private DateTime _dataNascimento;
         public DateTime DataNascimento
         {
@@ -58,7 +55,6 @@ namespace GerenciamentoFrotaVeiculo.Models
                 }
             }
         }
-
         public ICollection<ColaboradorVeiculo>? ColaboradoresVeiculos { get; set; } = new List<ColaboradorVeiculo>();
         public ICollection<Veiculo>? Veiculos { get; set; } = new List<Veiculo>();
 

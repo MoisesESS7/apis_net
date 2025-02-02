@@ -5,6 +5,7 @@ namespace GerenciamentoFrotaVeiculo.Api.Business
     public interface IColaboradorBusiness
     {
         Task<ColaboradorVO> FindByIdAsync(int id);
+        Task<ICollection<ColaboradorVO>> FindByNameAsync(string nome);
         Task<ColaboradorVO> FindByIdIncludeVeiculosAsync(int id);
         Task<ICollection<ColaboradorVO>> FindAllAsync();
         Task<ICollection<ColaboradorVO>> FindAllIncludeVeiculosAsync();

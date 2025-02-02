@@ -6,5 +6,6 @@ namespace GerenciamentoFrotaVeiculo.Api.Repository.IRepository
     {
         Task<Colaborador> FindByIdIncludeVeiculosAsync(int id);
         Task<ICollection<Colaborador>> FindAllIncludeVeiculosAsync();
+        Task<ICollection<Colaborador>> FindByNameAsync(string nome);
     }
 }

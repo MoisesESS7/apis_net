@@ -22,9 +22,40 @@ namespace GerenciamentoFrotaVeiculo.Api.Data.Implementation
                     Cor = origin.Cor,
                     LicenciamentoVigente = origin.LicenciamentoVigente,
                     Quilometragem = origin.Quilometragem,
-                    Colaboradores = null!,
-                    ColaboradoresVeiculos = null!,
+                    Colaboradores = new List<ColaboradorVO>(),
+                    ColaboradoresVeiculos = new List<ColaboradorVeiculoVO>()!,
                 };
+
+            foreach (var colaborador in origin!.Colaboradores!)
+            {
+                result.Colaboradores!.Add(new ColaboradorVO
+                {
+                    Id = colaborador.Id,
+                    Nome = colaborador.Nome,
+                    Idade = colaborador.Idade,
+                    Cpf = colaborador.Cpf,
+                    CarteiraHabilitacao = colaborador.CarteiraHabilitacao,
+                    Endereco = colaborador.Endereco,
+                    EstadoCivil = colaborador.EstadoCivil,
+                    Dependente = colaborador.Dependente,
+                    DataNascimento = colaborador.DataNascimento
+                });
+            }
+
+            foreach (var colaboradorVeiculo in origin.ColaboradoresVeiculos!)
+            {
+                result.ColaboradoresVeiculos!.Add(new ColaboradorVeiculoVO
+                {
+                    Id = colaboradorVeiculo.Id,
+                    ColaboradorId = colaboradorVeiculo.ColaboradorId,
+                    VeiculoId = colaboradorVeiculo.VeiculoId,
+                    ColaboradorNomeCompleto = colaboradorVeiculo.ColaboradorNomeCompleto,
+                    VeiculoModelo = colaboradorVeiculo.VeiculoModelo,
+                    DataInicioVinculo = colaboradorVeiculo.DataInicioVinculo,
+                    Colaborador = null,
+                    Veiculo = null
+                });
+            }
 
             return result;
         }
@@ -45,9 +76,39 @@ namespace GerenciamentoFrotaVeiculo.Api.Data.Implementation
                     Cor = origin.Cor,
                     LicenciamentoVigente = origin.LicenciamentoVigente,
                     Quilometragem = origin.Quilometragem,
-                    Colaboradores = null!,
-                    ColaboradoresVeiculos = null!,
+                    Colaboradores = new List<Colaborador>(),
+                    ColaboradoresVeiculos = new List<ColaboradorVeiculo>()!,
                 };
+
+            foreach (var colaborador in result.Colaboradores!)
+            {
+                result.Colaboradores.Add(new Colaborador
+                (
+                    colaborador.Nome,
+                    colaborador.Cpf,
+                    colaborador.CarteiraHabilitacao,
+                    colaborador.Endereco,
+                    colaborador.EstadoCivil,
+                    colaborador.Dependente,
+                    colaborador.DataNascimento
+                ));
+            }
+
+            foreach (var colaboradorVeiculo in result.ColaboradoresVeiculos!)
+            {
+                result.ColaboradoresVeiculos.Add(new ColaboradorVeiculo
+                {
+                    Id = colaboradorVeiculo.Id,
+                    ColaboradorId = colaboradorVeiculo.ColaboradorId,
+                    VeiculoId = colaboradorVeiculo.VeiculoId,
+                    ColaboradorNomeCompleto = colaboradorVeiculo.ColaboradorNomeCompleto,
+                    VeiculoModelo = colaboradorVeiculo.VeiculoModelo,
+                    DataInicioVinculo = colaboradorVeiculo.DataInicioVinculo,
+                    Colaborador = null,
+                    Veiculo = null
+                });
+            }
+
             return result;
         }
 
@@ -55,7 +116,7 @@ namespace GerenciamentoFrotaVeiculo.Api.Data.Implementation
         {
             var result = origin is null ? null! : new List<Veiculo>();
 
-            foreach(var item in origin!)
+            foreach (var item in origin!)
             {
                 result.Add(Parse(item));
             }

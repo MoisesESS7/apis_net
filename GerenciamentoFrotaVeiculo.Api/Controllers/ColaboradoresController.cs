@@ -1,7 +1,6 @@
 ﻿using GerenciamentoFrotaVeiculo.Api.Business;
 using GerenciamentoFrotaVeiculo.Api.Hypermedia.Filters;
 using GerenciamentoFrotaVeiculo.Data.ValueObject;
-using GerenciamentoFrotaVeiculo.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GerenciamentoFrotaVeiculo.Controllers
@@ -19,6 +18,25 @@ namespace GerenciamentoFrotaVeiculo.Controllers
             _colaboradorBusiness = colaboradorRepository;
         }
 
+        //[ApiVersion("2")]
+        [HttpGet("buscar-por-nome")]
+        [ProducesResponseType(200, Type = typeof(List<ColaboradorVO>))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public async Task<IActionResult> FindByNameAsync([FromQuery] string? nome)
+        {
+            var vo = await _colaboradorBusiness.FindByNameAsync(nome!);
+
+            if (vo is null || !vo.Any())
+            {
+                return NotFound(new { message = "Colaborador não encontrado.", errorCode = "COLABORADOR_NOT_FOUND" });
+            }
+
+            return Ok(vo);
+        }
+        
         //[ApiVersion("2")]
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(ColaboradorVO))]
@@ -67,7 +85,7 @@ namespace GerenciamentoFrotaVeiculo.Controllers
         }
 
         [HttpGet("incluir-veiculos")]
-        [ProducesResponseType(200, Type = typeof(ColaboradorVO))]
+        [ProducesResponseType(200, Type = typeof(List<ColaboradorVO>))]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]

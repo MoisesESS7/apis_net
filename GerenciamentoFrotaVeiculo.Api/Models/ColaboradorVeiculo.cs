@@ -9,7 +9,6 @@ namespace GerenciamentoFrotaVeiculo.Models
         public string ColaboradorNomeCompleto { get; set; } = null!;
         public string VeiculoModelo { get; set; } = null!;
         public DateTimeOffset DataInicioVinculo { get; set; }
-
         public Colaborador? Colaborador { get; set; }
         public Veiculo? Veiculo { get; set; }
     }

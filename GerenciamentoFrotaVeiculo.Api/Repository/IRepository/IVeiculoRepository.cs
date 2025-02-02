@@ -1,13 +1,10 @@
-﻿using GerenciamentoFrotaVeiculo.Data.ValueObject;
+﻿using GerenciamentoFrotaVeiculo.Models;
 
 namespace GerenciamentoFrotaVeiculo.Api.Repository.IRepository
 {
     public interface IVeiculoRepository
     {
-        Task<VeiculoVO> GetByIdAsync(int id);
-        Task<ICollection<VeiculoVO>> GetAllAsync();
-        Task<VeiculoVO> CreateAsync(VeiculoVO vo);
-        Task<VeiculoVO> UpdateAsync(VeiculoVO veiculoDbVO, VeiculoVO veiculoRequisicaoVO);
-        Task<bool> DeleteAsync(VeiculoVO vo);
+        Task<Veiculo> FindByIdIncludeColaboradoresAsync(int id);
+        Task<ICollection<Veiculo>> FindAllIncludeColaboradoresAsync();
     }
 }

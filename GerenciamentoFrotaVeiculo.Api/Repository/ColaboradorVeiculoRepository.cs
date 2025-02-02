@@ -48,11 +48,13 @@ namespace GerenciamentoFrotaVeiculo.Api.Repository
                 var colaborador = await _context.Colaboradores.FindAsync(colaboradorVeiculoVO.ColaboradorId);
                 var veiculo = await _context.Veiculos.FindAsync(colaboradorVeiculoVO.VeiculoId);
 
+                colaboradorVeiculo.ColaboradorNomeCompleto = colaborador!.Nome;
+                colaboradorVeiculo.VeiculoModelo = veiculo!.Modelo;
                 colaboradorVeiculo.Colaborador = colaborador;
                 colaboradorVeiculo.Veiculo = veiculo;
                 colaboradorVeiculo.DataInicioVinculo = DateTime.Now;
 
-                await _context.ColaboradoresVeiculos.AddAsync(colaboradorVeiculo);
+                _context.Add(colaboradorVeiculo);
                 await _context.SaveChangesAsync();
 
                 var vo = _colaboradorVeiculoToVoParse.Parse(colaboradorVeiculo);

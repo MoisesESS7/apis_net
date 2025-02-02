@@ -60,11 +60,13 @@ builder.Services.AddSingleton<IParser<ColaboradorVeiculo, ColaboradorVeiculoVO>,
 builder.Services.AddSingleton<IParser<ColaboradorVeiculoVO, ColaboradorVeiculo>, ColaboradorVeiculoConverter<ColaboradorVeiculo>>();
 
 builder.Services.AddScoped<IVeiculoRepository, VeiculoRepository>();
+builder.Services.AddScoped<VeiculoRepository>();
 builder.Services.AddScoped<ColaboradorRepository>();
 builder.Services.AddScoped<IColaboradorVeiculoRepository, ColaboradorVeiculoRepository>();
 builder.Services.AddScoped<IColaboradorRepository, ColaboradorRepository>();
 
 builder.Services.AddScoped<IColaboradorBusiness, ColaboradorBusiness>();
+builder.Services.AddScoped<IVeiculoBusiness, VeiculoBusiness>();
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 

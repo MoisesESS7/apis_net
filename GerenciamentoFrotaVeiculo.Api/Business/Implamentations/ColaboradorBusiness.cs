@@ -20,6 +20,24 @@ namespace GerenciamentoFrotaVeiculo.Api.Business.Implamentations
             _voToColaboradorParser = voToColaboradorParser ?? throw new ArgumentNullException(nameof(voToColaboradorParser));
         }
 
+        public async Task<ICollection<ColaboradorVO>> FindByNameAsync(string nome)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(nome) || string.IsNullOrWhiteSpace(nome)) return null!;
+
+                var colaboradores = await _colaboradorRepository.FindByNameAsync(nome);
+
+                if (colaboradores is null) return null!;
+
+                return _colaboradorToVoParser.Parse(colaboradores);
+            }
+            catch (Exception)
+            {
+                return null!;
+            }
+        }
+
         public async Task<ICollection<ColaboradorVO>> FindAllAsync()
         {
             try
@@ -27,7 +45,7 @@ namespace GerenciamentoFrotaVeiculo.Api.Business.Implamentations
                 var colaboradores = await _colaboradorRepository.FindAllAsync();
 
                 if (colaboradores is null) return null!;
-                
+
                 return _colaboradorToVoParser.Parse(colaboradores);
             }
             catch (Exception)
@@ -59,7 +77,7 @@ namespace GerenciamentoFrotaVeiculo.Api.Business.Implamentations
                 var colaborador = await _colaboradorRepository.FindByIdAsync(id);
 
                 if (colaborador is null) return null!;
-                
+
                 return _colaboradorToVoParser.Parse(colaborador);
             }
             catch (Exception)

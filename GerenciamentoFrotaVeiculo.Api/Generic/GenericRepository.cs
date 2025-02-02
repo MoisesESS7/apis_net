@@ -1,5 +1,4 @@
-﻿using GerenciamentoFrotaVeiculo.Api.Data.ValueObject.Base;
-using GerenciamentoFrotaVeiculo.Context;
+﻿using GerenciamentoFrotaVeiculo.Context;
 using GerenciamentoFrotaVeiculo.Models.Base;
 using Microsoft.EntityFrameworkCore;
 
@@ -78,7 +77,6 @@ namespace GerenciamentoFrotaVeiculo.Api.Generic
             try
             {
                 var item = await FindByIdAsync(id);
-
                 _dbSet.Remove(item);
                 await _context.SaveChangesAsync();
                 return true;

@@ -12,6 +12,21 @@ namespace GerenciamentoFrotaVeiculo.Api.Repository
         {
         }
 
+        public async Task<ICollection<Colaborador>> FindByNameAsync(string nome)
+        {
+            try
+            {
+                var colaboradores = await _context.Colaboradores
+                    .Where(c => c.Nome.Contains(nome)).ToListAsync();
+
+                return colaboradores!;
+            }
+            catch (Exception)
+            {
+                return null!;
+            }
+        }
+
         public async Task<Colaborador> FindByIdIncludeVeiculosAsync(int id)
         {
             try
@@ -45,6 +60,6 @@ namespace GerenciamentoFrotaVeiculo.Api.Repository
             {
                 return null!; ;
             }
-        }
+        }        
     }
 }

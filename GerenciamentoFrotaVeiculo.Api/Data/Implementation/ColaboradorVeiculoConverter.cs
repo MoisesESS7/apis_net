@@ -22,6 +22,11 @@ namespace GerenciamentoFrotaVeiculo.Api.Data.Implementation
                     //{
                     //    Id = origin.ColaboradorId,
                     //    Nome = origin.Colaborador!.Nome,
+                    //    Dependente = origin.Colaborador!.Dependente,
+                    //    Cpf = origin.Colaborador!.Cpf,
+                    //    CarteiraHabilitacao = origin.Colaborador!.CarteiraHabilitacao,
+                    //    Endereco = origin.Colaborador!.Endereco,
+                    //    EstadoCivil = origin.Colaborador!.EstadoCivil,
                     //    Veiculos = new List<Veiculo>(),
                     //    ColaboradoresVeiculos = new List<ColaboradorVeiculo>()
                     //},
