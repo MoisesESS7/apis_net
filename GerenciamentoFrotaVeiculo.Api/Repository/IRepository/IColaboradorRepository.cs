@@ -4,8 +4,10 @@ namespace GerenciamentoFrotaVeiculo.Api.Repository.IRepository
 {
     public interface IColaboradorRepository
     {
-        Task<Colaborador> FindByIdIncludeVeiculosAsync(int id);
+        Task<Colaborador> BuscaCompletaAsync(int id);
+        Task<ICollection<Veiculo>> FindAllVeiculosByIdColaboradorAsync(int id);
         Task<ICollection<Colaborador>> FindAllIncludeVeiculosAsync();
         Task<ICollection<Colaborador>> FindByNameAsync(string nome);
+        Task<Colaborador> FindByCpfAsync(string cpf);
     }
 }

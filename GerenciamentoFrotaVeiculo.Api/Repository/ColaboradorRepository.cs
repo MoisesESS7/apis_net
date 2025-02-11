@@ -27,7 +27,7 @@ namespace GerenciamentoFrotaVeiculo.Api.Repository
             }
         }
 
-        public async Task<Colaborador> FindByIdIncludeVeiculosAsync(int id)
+        public async Task<Colaborador> BuscaCompletaAsync(int id)
         {
             try
             {
@@ -60,6 +60,41 @@ namespace GerenciamentoFrotaVeiculo.Api.Repository
             {
                 return null!; ;
             }
-        }        
+        }
+
+        public async Task<Colaborador> FindByCpfAsync(string cpf)
+        {
+            try
+            {
+                var colaborador = await _context.Colaboradores
+                    .Where(c => c.Cpf.Equals(cpf))
+                    .SingleOrDefaultAsync();
+
+                return colaborador!;
+            }
+            catch (Exception)
+            {
+                return null!; ;
+            }
+        }
+
+        public async Task<ICollection<Veiculo>> FindAllVeiculosByIdColaboradorAsync(int id)
+        {
+            try
+            {
+                var veiculos = await _context.Colaboradores
+                    .Where(c => c.Id == id)
+                    .SelectMany(v => v.Veiculos!)
+                    .ToListAsync();
+
+                if (!veiculos.Any()) return null!;
+
+                return veiculos;
+            }
+            catch (Exception)
+            {
+                return null!;
+            }
+        }
     }
 }

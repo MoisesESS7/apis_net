@@ -42,7 +42,7 @@ namespace GerenciamentoFrotaVeiculo.Api.Generic
             }
         }
 
-        public async Task<T> CreateAsync(T item)
+        public async virtual Task<T> CreateAsync(T item)
         {
             try
             {
@@ -57,7 +57,7 @@ namespace GerenciamentoFrotaVeiculo.Api.Generic
             }
         }
 
-        public async Task<T> UpdateAsync(T item)
+        public async virtual Task<T> UpdateAsync(T item)
         {
             try
             {

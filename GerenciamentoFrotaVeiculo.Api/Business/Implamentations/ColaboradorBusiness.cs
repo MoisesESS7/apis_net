@@ -10,14 +10,17 @@ namespace GerenciamentoFrotaVeiculo.Api.Business.Implamentations
         private readonly ColaboradorRepository _colaboradorRepository;
         private readonly IParser<Colaborador, ColaboradorVO> _colaboradorToVoParser;
         private readonly IParser<ColaboradorVO, Colaborador> _voToColaboradorParser;
+        private readonly IParser<Veiculo, VeiculoVO> _veiculoToVoParser;
 
         public ColaboradorBusiness(ColaboradorRepository colaboradorRepository,
             IParser<Colaborador, ColaboradorVO> colaboradorToVoParser,
-            IParser<ColaboradorVO, Colaborador> voToColaboradorParser)
+            IParser<ColaboradorVO, Colaborador> voToColaboradorParser,
+            IParser<Veiculo, VeiculoVO> veiculoToVoParser)
         {
             _colaboradorRepository = colaboradorRepository ?? throw new ArgumentNullException(nameof(colaboradorRepository));
             _colaboradorToVoParser = colaboradorToVoParser ?? throw new ArgumentNullException(nameof(colaboradorToVoParser));
             _voToColaboradorParser = voToColaboradorParser ?? throw new ArgumentNullException(nameof(voToColaboradorParser));
+            _veiculoToVoParser = veiculoToVoParser ?? throw new ArgumentNullException(nameof(veiculoToVoParser));
         }
 
         public async Task<ICollection<ColaboradorVO>> FindByNameAsync(string nome)
@@ -31,6 +34,24 @@ namespace GerenciamentoFrotaVeiculo.Api.Business.Implamentations
                 if (colaboradores is null) return null!;
 
                 return _colaboradorToVoParser.Parse(colaboradores);
+            }
+            catch (Exception)
+            {
+                return null!;
+            }
+        }
+
+        public async Task<ColaboradorVO> FindByCpfAsync(string cpf)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(cpf) || string.IsNullOrWhiteSpace(cpf)) return null!;
+
+                var colaborador = await _colaboradorRepository.FindByCpfAsync(cpf);
+
+                if (colaborador is null) return null!;
+
+                return _colaboradorToVoParser.Parse(colaborador);
             }
             catch (Exception)
             {
@@ -90,7 +111,7 @@ namespace GerenciamentoFrotaVeiculo.Api.Business.Implamentations
         {
             try
             {
-                var colaborador = await _colaboradorRepository.FindByIdIncludeVeiculosAsync(id);
+                var colaborador = await _colaboradorRepository.BuscaCompletaAsync(id);
 
                 if (colaborador is null) return null!;
 
@@ -145,6 +166,22 @@ namespace GerenciamentoFrotaVeiculo.Api.Business.Implamentations
             var resposta = await _colaboradorRepository.DeleteByIdAsync(id);
 
             return resposta;
+        }
+
+        public async Task<ICollection<VeiculoVO>> FindAllVeiculosByIdColaboradorAsync(int id)
+        {
+            try
+            {
+                var veiculos = await _colaboradorRepository.FindAllVeiculosByIdColaboradorAsync(id);
+
+                if (veiculos is null) return null!;
+
+                return _veiculoToVoParser.Parse(veiculos);
+            }
+            catch (Exception)
+            {
+                return null!;
+            }
         }
     }
 }

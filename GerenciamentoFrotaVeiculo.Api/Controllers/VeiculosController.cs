@@ -2,6 +2,10 @@
 using GerenciamentoFrotaVeiculo.Api.Hypermedia.Filters;
 using GerenciamentoFrotaVeiculo.Data.ValueObject;
 using Microsoft.AspNetCore.Mvc;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Numerics;
+using System.Runtime.ConstrainedExecution;
+using System.Text.RegularExpressions;
 
 namespace GerenciamentoFrotaVeiculo.Controllers
 {
@@ -35,7 +39,7 @@ namespace GerenciamentoFrotaVeiculo.Controllers
 
             return Ok(veiculo);
         }
-        
+
         [HttpGet("busca-completa/{id}")]
         [TypeFilter(typeof(HyperMediaFilter))]
         public async Task<IActionResult> FindByIdIncludeColaboradoresAsync(int id)
@@ -68,7 +72,7 @@ namespace GerenciamentoFrotaVeiculo.Controllers
 
             return Ok(veiculos);
         }
-        
+
         [HttpGet("busca-completa")]
         [TypeFilter(typeof(HyperMediaFilter))]
         public async Task<IActionResult> FindAllIncludeColaboradoresAsync()
@@ -81,6 +85,149 @@ namespace GerenciamentoFrotaVeiculo.Controllers
             }
 
             return Ok(veiculos);
+        }
+
+        [HttpGet("buscar-por-ano/{ano}")]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public async Task<IActionResult> BuscarPorAnoAsync(int ano)
+        {
+            var vo = await _veiculoBusiness.BuscarVeiculosPorAnoAsync(ano);
+
+            if (vo is null || !vo.Any())
+            {
+                return NotFound(new { message = "Nenhum veículo foi encontrado.", erroCode = "VEICULOS_NOT_FOUND" });
+            }
+
+            return Ok(vo);
+        }
+
+        [HttpGet("buscar-por-modelo/{modelo}")]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public async Task<IActionResult> BuscarPorModeloAsync(string modelo)
+        {
+            var vo = await _veiculoBusiness.BuscarVeiculosPorModeloAsync(modelo);
+
+            if (vo is null || !vo.Any())
+            {
+                return NotFound(new { message = "Nenhum veículo foi encontrado.", erroCode = "VEICULOS_NOT_FOUND" });
+            }
+
+            return Ok(vo);
+        }
+
+        [HttpGet("buscar-por-categoria/{categoria}")]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public async Task<IActionResult> BuscarPorCategoriaAsync(string categoria)
+        {
+            var vo = await _veiculoBusiness.BuscarVeiculosPorCategoriaAsync(categoria);
+
+            if (vo is null || !vo.Any())
+            {
+                return NotFound(new { message = "Nenhum veículo foi encontrado.", erroCode = "VEICULOS_NOT_FOUND" });
+            }
+
+            return Ok(vo);
+        }
+
+        [HttpGet("buscar-por-placa/{placa}")]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public async Task<IActionResult> BuscarPorPlacaAsync(string placa)
+        {
+            var vo = await _veiculoBusiness.BuscarVeiculosPorPlacaAsync(placa);
+
+            if (vo is null || !vo.Any())
+            {
+                return NotFound(new { message = "Nenhum veículo foi encontrado.", erroCode = "VEICULOS_NOT_FOUND" });
+            }
+
+            return Ok(vo);
+        }
+
+        [HttpGet("buscar-veiculos-licenciados")]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public async Task<IActionResult> BuscarVeiculosLicenciadosAsync()
+        {
+            var vo = await _veiculoBusiness.BuscarVeiculosPorLicenciamentoAsync(true);
+
+            if (vo is null || !vo.Any())
+            {
+                return NotFound(new { message = "Nenhum veículo foi encontrado.", erroCode = "VEICULOS_NOT_FOUND" });
+            }
+
+            return Ok(vo);
+        }
+
+        [HttpGet("buscar-veiculos-nao-licenciados")]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public async Task<IActionResult> BuscarVeiculosLicenciamentoAtrasadoAsync()
+        {
+            var vo = await _veiculoBusiness.BuscarVeiculosPorLicenciamentoAsync(false);
+
+            if (vo is null || !vo.Any())
+            {
+                return NotFound(new { message = "Nenhum veículo foi encontrado.", erroCode = "VEICULOS_NOT_FOUND" });
+            }
+
+            return Ok(vo);
+        }
+
+        [HttpGet("buscar-por-marca/{marca}")]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public async Task<IActionResult> BuscarVeiculosPorMarcaAsync(string marca)
+        {
+            var vo = await _veiculoBusiness.BuscarVeiculosPorMarcaAsync(marca);
+
+            if (vo is null || !vo.Any())
+            {
+                return NotFound(new { message = "Nenhum veículo foi encontrado.", erroCode = "VEICULOS_NOT_FOUND" });
+            }
+
+            return Ok(vo);
+        }
+
+        [HttpGet("buscar-por-cor/{cor}")]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public async Task<IActionResult> BuscarVeiculosPorCorAsync(string cor)
+        {
+            var vo = await _veiculoBusiness.BuscarVeiculosPorCorAsync(cor);
+
+            if (vo is null || !vo.Any())
+            {
+                return NotFound(new { message = "Nenhum veículo foi encontrado.", erroCode = "VEICULOS_NOT_FOUND" });
+            }
+
+            return Ok(vo);
+        }
+
+        [HttpGet("buscar-por-quilometragem")]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public async Task<IActionResult> BuscarVeiculosPorQuilometragemAsync([FromQuery] int quilometragemMinima, int quilometragemMaxima)
+        {
+            var vo = await _veiculoBusiness.BuscarVeiculosPorQuilometragemAsync(quilometragemMinima, quilometragemMaxima);
+
+            if (vo is null || !vo.Any())
+            {
+                return NotFound(new { message = "Nenhum veículo foi encontrado.", erroCode = "VEICULOS_NOT_FOUND" });
+            }
+
+            return Ok(vo);
+        }
+
+        [HttpGet("buscar-por-query")]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public async Task<IActionResult> BuscarVeiculosPorQueryAsync([FromQuery] string? placa, [FromQuery] string? marca,
+        [FromQuery] int quilometragemMinima, [FromQuery] int quilometragemMaxima, [FromQuery] string? cor, [FromQuery] int ano,
+        [FromQuery] string? modelo, [FromQuery] string? categoria, [FromQuery] bool licenciamento)
+        {
+            var vo = await _veiculoBusiness.BuscarVeiculosAsync(placa, marca, quilometragemMinima,
+                    quilometragemMaxima, cor, ano, modelo, categoria, licenciamento);
+
+            if (vo is null || !vo.Any())
+            {
+                return NotFound(new { message = "Nenhum veículo foi encontrado.", erroCode = "VEICULOS_NOT_FOUND" });
+            }
+
+            return Ok(vo);
         }
 
         [HttpPost]

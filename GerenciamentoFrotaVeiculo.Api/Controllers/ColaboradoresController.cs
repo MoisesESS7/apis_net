@@ -36,8 +36,48 @@ namespace GerenciamentoFrotaVeiculo.Controllers
 
             return Ok(vo);
         }
+
+        [HttpGet("buscar-por-cpf/{cpf}")]
+        [ProducesResponseType(200, Type = typeof(ColaboradorVO))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public async Task<IActionResult> FindByCpfAsync([FromRoute] string cpf)
+        {
+            var vo = await _colaboradorBusiness.FindByCpfAsync(cpf);
+
+            if (vo is null)
+            {
+                return NotFound(new { message = "Colaborador não encontrado.", errorCode = "COLABORADOR_NOT_FOUND" });
+            }
+
+            return Ok(vo);
+        }
         
-        //[ApiVersion("2")]
+        [HttpGet("buscar-veiculos/{colaboradorId}")]
+        [ProducesResponseType(200, Type = typeof(VeiculoVO))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public async Task<IActionResult> FindAllVeiculoByIdColaboradorAsync(int colaboradorId)
+        {
+            if (colaboradorId < 1)
+            {
+                return BadRequest(new { message = "Id inválido.", erroCode = "BAD_REQUEST" });
+            }
+
+            var vo = await _colaboradorBusiness.FindAllVeiculosByIdColaboradorAsync(colaboradorId);
+
+            if (vo is null)
+            {
+                return NotFound(new { message = "Veículos não encontrados.", errorCode = "VEICULOS_NOT_FOUND" });
+            }
+
+            return Ok(vo);
+        }
+
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(ColaboradorVO))]
         [ProducesResponseType(400)]
@@ -61,7 +101,7 @@ namespace GerenciamentoFrotaVeiculo.Controllers
             return Ok(vo);
         }
 
-        [HttpGet("incluir-veiculos/{id}")]
+        [HttpGet("busca-completa/{id}")]
         [ProducesResponseType(200, Type = typeof(ColaboradorVO))]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
@@ -84,7 +124,7 @@ namespace GerenciamentoFrotaVeiculo.Controllers
             return Ok(vo);
         }
 
-        [HttpGet("incluir-veiculos")]
+        [HttpGet("busca-completa")]
         [ProducesResponseType(200, Type = typeof(List<ColaboradorVO>))]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]

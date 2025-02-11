@@ -16,9 +16,9 @@ namespace GerenciamentoFrotaVeiculo.WebUI.Controllers
 
         public IActionResult Index()
         {
-            var colaborador = _colaboradorService.GetAllAsync();
+            var colaborador = _colaboradorService.GetByIdAsync(1);
             
-            return View();
+            return View(colaborador);
         }
 
         public IActionResult Privacy()

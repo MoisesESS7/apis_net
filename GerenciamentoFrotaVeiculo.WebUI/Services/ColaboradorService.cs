@@ -1,15 +1,13 @@
 ﻿using GerenciamentoFrotaVeiculo.WebUI.Models;
 using GerenciamentoFrotaVeiculo.WebUI.Services.IServices;
 using GerenciamentoFrotaVeiculo.WebUI.Utils;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace GerenciamentoFrotaVeiculo.WebUI.Services
 {
     public class ColaboradorService : IColaboradorService
     {
         private readonly HttpClient _httpClient;
-        private readonly string _urlBase = "api/v1/colaboradores";
+        private readonly string _urlBase = $"api/v{1}/colaboradores";
 
         public ColaboradorService(HttpClient httpClient)
         {
@@ -26,7 +24,7 @@ namespace GerenciamentoFrotaVeiculo.WebUI.Services
 
         public async Task<ColaboradorViewModel> GetByIdAsync(int id)
         {
-            var response = await _httpClient.GetAsync($"{_urlBase}/{id}");
+            var response = await _httpClient.GetAsync($"{_urlBase}/busca-completa/{id}");
             var json = await response.ReadContentAs<ColaboradorViewModel>();
 
             return json!;

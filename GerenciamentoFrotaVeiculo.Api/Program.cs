@@ -14,6 +14,10 @@ using Microsoft.AspNetCore.Mvc;
 using GerenciamentoFrotaVeiculo.Api.Generic;
 using GerenciamentoFrotaVeiculo.Api.Business;
 using GerenciamentoFrotaVeiculo.Api.Business.Implamentations;
+using Microsoft.Net.Http.Headers;
+using Microsoft.OpenApi.Models;
+using System;
+using Microsoft.AspNetCore.Rewrite;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +26,14 @@ builder.Services.AddDbContext<MySqlContext>(option =>
 option.UseMySql(builder.Configuration["ConnectionStrings:MySqlConnectionString"],
 new MySqlServerVersion(new Version(8, 0, 27))));
 //option.UseSqlServer(builder.Configuration.GetConnectionString("ConectionStringDataBase")));
+
+builder.Services.AddMvc(options =>
+{
+    options.RespectBrowserAcceptHeader = true;
+    options.FormatterMappings.SetMediaTypeMappingForFormat("xml", MediaTypeHeaderValue.Parse("application/xml"));
+    options.FormatterMappings.SetMediaTypeMappingForFormat("json", MediaTypeHeaderValue.Parse("application/json"));
+})
+    .AddXmlDataContractSerializerFormatters();
 
 builder.Services.AddRouting(option => option.LowercaseUrls = true);
 builder.Services.AddControllers().AddJsonOptions(options =>
@@ -44,7 +56,23 @@ builder.Services.AddApiVersioning(options =>
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1",
+        new OpenApiInfo
+        {
+            Title = "Gerenciamento frota veículos",
+            Version = "v1",
+            Description = "API de gerenciamento de frota de veículos",
+            Contact = new OpenApiContact
+            {
+                Name = "Moisés do Espírito Santo Silva",
+                Email = "meu_email@outlook.com",
+                Url = new Uri("https://github.com/moisesess7"),
+            }
+        }
+    );
+});
 
 var filter = new HyperMediaFilterOptions();
 filter.ContentResponseEnricherList.Add(new ColaboradorEnricher());
@@ -52,6 +80,7 @@ filter.ContentResponseEnricherList.Add(new VeiculoEnricher());
 filter.ContentResponseEnricherList.Add(new ColaboradorVeiculoEnricher());
 builder.Services.AddSingleton(filter);
 
+//Configurações dos serviços responsáveis por fazer o Parse entre "Model" e "VO"
 builder.Services.AddSingleton<IParser<Colaborador, ColaboradorVO>, ColaboradorConverter<ColaboradorVO>>();
 builder.Services.AddSingleton<IParser<ColaboradorVO, Colaborador>, ColaboradorConverter<Colaborador>>();
 builder.Services.AddSingleton<IParser<VeiculoVO, Veiculo>, VeiculoConverter<Veiculo>>();
@@ -62,10 +91,11 @@ builder.Services.AddSingleton<IParser<ColaboradorVeiculoVO, ColaboradorVeiculo>,
 builder.Services.AddScoped<IVeiculoRepository, VeiculoRepository>();
 builder.Services.AddScoped<VeiculoRepository>();
 builder.Services.AddScoped<ColaboradorRepository>();
-builder.Services.AddScoped<IColaboradorVeiculoRepository, ColaboradorVeiculoRepository>();
+builder.Services.AddScoped<ColaboradorVeiculoRepository>();
 builder.Services.AddScoped<IColaboradorRepository, ColaboradorRepository>();
 
 builder.Services.AddScoped<IColaboradorBusiness, ColaboradorBusiness>();
+builder.Services.AddScoped<IColaboradorVeiculoBusiness, ColaboradorVeiculoBusiness>();
 builder.Services.AddScoped<IVeiculoBusiness, VeiculoBusiness>();
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
@@ -77,7 +107,14 @@ app.UseRouting();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Gerenciamento frota veículos - v1");
+    });
+
+    var option = new RewriteOptions();
+    option.AddRedirect("^$", "swagger");
+    app.UseRewriter(option);
 }
 
 app.UseHttpsRedirection();
