@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\GerenciamentoFrotaVeiculo.Api.props" />
-</Project>

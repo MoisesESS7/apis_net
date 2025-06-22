@@ -101,7 +101,7 @@ namespace GerenciamentoFrotaVeiculo.Controllers
             return Ok(vo);
         }
 
-        [HttpGet("busca-completa/{id}")]
+        [HttpGet("incluir-veiculos/{id}")]
         [ProducesResponseType(200, Type = typeof(ColaboradorVO))]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]

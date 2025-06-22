@@ -1,5 +1,5 @@
 ﻿using GerenciamentoFrotaVeiculo.Api.Data.Contract;
-using GerenciamentoFrotaVeiculo.Api.Repository;
+using GerenciamentoFrotaVeiculo.Api.Repository.IRepository;
 using GerenciamentoFrotaVeiculo.Data.ValueObject;
 using GerenciamentoFrotaVeiculo.Models;
 
@@ -7,12 +7,12 @@ namespace GerenciamentoFrotaVeiculo.Api.Business.Implamentations
 {
     public class ColaboradorBusiness : IColaboradorBusiness
     {
-        private readonly ColaboradorRepository _colaboradorRepository;
+        private readonly IColaboradorRepository _colaboradorRepository;
         private readonly IParser<Colaborador, ColaboradorVO> _colaboradorToVoParser;
         private readonly IParser<ColaboradorVO, Colaborador> _voToColaboradorParser;
         private readonly IParser<Veiculo, VeiculoVO> _veiculoToVoParser;
 
-        public ColaboradorBusiness(ColaboradorRepository colaboradorRepository,
+        public ColaboradorBusiness(IColaboradorRepository colaboradorRepository,
             IParser<Colaborador, ColaboradorVO> colaboradorToVoParser,
             IParser<ColaboradorVO, Colaborador> voToColaboradorParser,
             IParser<Veiculo, VeiculoVO> veiculoToVoParser)

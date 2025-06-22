@@ -1,5 +1,4 @@
 ﻿using GerenciamentoFrotaVeiculo.Data.ValueObject;
-using GerenciamentoFrotaVeiculo.Models;
 
 namespace GerenciamentoFrotaVeiculo.Api.Business
 {
