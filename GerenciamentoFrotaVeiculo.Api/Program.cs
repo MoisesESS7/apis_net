@@ -1,31 +1,33 @@
-using Microsoft.EntityFrameworkCore;
-using System.Text.Json.Serialization;
-using GerenciamentoFrotaVeiculo.Context;
-using GerenciamentoFrotaVeiculo.Api.Hypermedia.Filters;
-using GerenciamentoFrotaVeiculo.Api.Hypermedia.Enricher;
-using GerenciamentoFrotaVeiculo.Api.Data.Contract;
-using GerenciamentoFrotaVeiculo.Models;
-using GerenciamentoFrotaVeiculo.Data.ValueObject;
-using GerenciamentoFrotaVeiculo.Api.Data.Implementation;
-using GerenciamentoFrotaVeiculo.Api.Repository;
-using GerenciamentoFrotaVeiculo.Api.Repository.IRepository;
-using Microsoft.AspNetCore.Mvc.Versioning;
-using Microsoft.AspNetCore.Mvc;
-using GerenciamentoFrotaVeiculo.Api.Generic;
 using GerenciamentoFrotaVeiculo.Api.Business;
 using GerenciamentoFrotaVeiculo.Api.Business.Implamentations;
+using GerenciamentoFrotaVeiculo.Api.Data.Contract;
+using GerenciamentoFrotaVeiculo.Api.Data.Implementation;
+using GerenciamentoFrotaVeiculo.Api.Generic;
+using GerenciamentoFrotaVeiculo.Api.Hypermedia.Enricher;
+using GerenciamentoFrotaVeiculo.Api.Hypermedia.Filters;
+using GerenciamentoFrotaVeiculo.Api.Hypermedia.Helpers;
+using GerenciamentoFrotaVeiculo.Api.Repository;
+using GerenciamentoFrotaVeiculo.Api.Repository.IRepository;
+using GerenciamentoFrotaVeiculo.Context;
+using GerenciamentoFrotaVeiculo.Data.ValueObject;
+using GerenciamentoFrotaVeiculo.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.AspNetCore.Rewrite;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
-using System;
-using Microsoft.AspNetCore.Rewrite;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<MySqlContext>(option =>
-option.UseMySql(builder.Configuration["ConnectionStrings:MySqlConnectionString"],
-new MySqlServerVersion(new Version(8, 0, 27))));
-//option.UseSqlServer(builder.Configuration.GetConnectionString("ConectionStringDataBase")));
+    option.UseMySql(builder.Configuration["ConnectionStrings:MySqlConnectionString"],
+    new MySqlServerVersion(new Version(8, 0, 27))));
 
 builder.Services.AddMvc(options =>
 {
@@ -33,7 +35,7 @@ builder.Services.AddMvc(options =>
     options.FormatterMappings.SetMediaTypeMappingForFormat("xml", MediaTypeHeaderValue.Parse("application/xml"));
     options.FormatterMappings.SetMediaTypeMappingForFormat("json", MediaTypeHeaderValue.Parse("application/json"));
 })
-    .AddXmlDataContractSerializerFormatters();
+.AddXmlDataContractSerializerFormatters();
 
 builder.Services.AddRouting(option => option.LowercaseUrls = true);
 builder.Services.AddControllers().AddJsonOptions(options =>
@@ -41,46 +43,48 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
 
+// API Versioning
 builder.Services.AddApiVersioning(options =>
 {
     options.AssumeDefaultVersionWhenUnspecified = true;
     options.DefaultApiVersion = new ApiVersion(1, 0);
     options.ReportApiVersions = true;
-
-    // Suporte a múltiplas formas de enviar a versão
     options.ApiVersionReader = ApiVersionReader.Combine(
-        new QueryStringApiVersionReader("api-version"), // Ex: ?api-version=2.0
-        new HeaderApiVersionReader("x-api-version"), // Ex: X-API-Version: 1.0
-        new UrlSegmentApiVersionReader()); // Ex: /api/v2/resource
+        new QueryStringApiVersionReader("api-version"),
+        new HeaderApiVersionReader("x-api-version"),
+        new UrlSegmentApiVersionReader());
 });
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
+// Versioned API Explorer (para integração com Swagger)
+builder.Services.AddVersionedApiExplorer(options =>
 {
-    c.SwaggerDoc("v1",
-        new OpenApiInfo
-        {
-            Title = "Gerenciamento frota veículos",
-            Version = "v1",
-            Description = "API de gerenciamento de frota de veículos",
-            Contact = new OpenApiContact
-            {
-                Name = "Moisés do Espírito Santo Silva",
-                Email = "meu_email@outlook.com",
-                Url = new Uri("https://github.com/moisesess7"),
-            }
-        }
-    );
+    options.GroupNameFormat = "'v'VVV"; // Formato "v1", "v2", etc.
+    options.SubstituteApiVersionInUrl = true;
 });
 
-var filter = new HyperMediaFilterOptions();
-filter.ContentResponseEnricherList.Add(new ColaboradorEnricher());
-filter.ContentResponseEnricherList.Add(new VeiculoEnricher());
-filter.ContentResponseEnricherList.Add(new ColaboradorVeiculoEnricher());
-builder.Services.AddSingleton(filter);
+// Swagger
+builder.Services.AddSwaggerGen();
+builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
-//Configurações dos serviços responsáveis por fazer o Parse entre "Model" e "VO"
+// Seus serviços e injeções
+builder.Services.AddSingleton<ColaboradorEnricher>();
+builder.Services.AddSingleton<VeiculoEnricher>();
+builder.Services.AddSingleton<ColaboradorVeiculoEnricher>();
+
+builder.Services.AddSingleton(provider =>
+{
+    var options = new HyperMediaFilterOptions();
+
+    options.ContentResponseEnricherList.Add(provider.GetRequiredService<ColaboradorEnricher>());
+    options.ContentResponseEnricherList.Add(provider.GetRequiredService<VeiculoEnricher>());
+    options.ContentResponseEnricherList.Add(provider.GetRequiredService<ColaboradorVeiculoEnricher>());
+
+    return options;
+});
+
+builder.Services.AddSingleton<HyperMediaLinkBuilder>();
+
+// Configurações dos serviços responsáveis por fazer o Parse entre "Model" e "VO"
 builder.Services.AddSingleton<IParser<Colaborador, ColaboradorVO>, ColaboradorConverter<ColaboradorVO>>();
 builder.Services.AddSingleton<IParser<ColaboradorVO, Colaborador>, ColaboradorConverter<Colaborador>>();
 builder.Services.AddSingleton<IParser<VeiculoVO, Veiculo>, VeiculoConverter<Veiculo>>();
@@ -93,6 +97,7 @@ builder.Services.AddScoped<VeiculoRepository>();
 builder.Services.AddScoped<ColaboradorRepository>();
 builder.Services.AddScoped<ColaboradorVeiculoRepository>();
 builder.Services.AddScoped<IColaboradorRepository, ColaboradorRepository>();
+builder.Services.AddScoped<IColaboradorVeiculoRepository, ColaboradorVeiculoRepository>();
 
 builder.Services.AddScoped<IColaboradorBusiness, ColaboradorBusiness>();
 builder.Services.AddScoped<IColaboradorVeiculoBusiness, ColaboradorVeiculoBusiness>();
@@ -103,13 +108,19 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepositor
 var app = builder.Build();
 
 app.UseRouting();
-// Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(c =>
+
+    var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+
+    app.UseSwaggerUI(options =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Gerenciamento frota veículos - v1");
+        foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions)
+        {
+            options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
+        }
     });
 
     var option = new RewriteOptions();
@@ -124,6 +135,35 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapControllerRoute("DefaultApi", "api/v{version:apiVersion}/{controller=Values}/{id?}");
 
-app.MapControllers();
-
 app.Run();
+
+
+// Classe para configurar o Swagger para múltiplas versões
+public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
+{
+    private readonly IApiVersionDescriptionProvider _provider;
+
+    public ConfigureSwaggerOptions(IApiVersionDescriptionProvider provider)
+    {
+        _provider = provider;
+    }
+
+    public void Configure(SwaggerGenOptions options)
+    {
+        foreach (var description in _provider.ApiVersionDescriptions)
+        {
+            options.SwaggerDoc(description.GroupName, new OpenApiInfo
+            {
+                Title = "Gerenciamento frota veículos",
+                Version = description.ApiVersion.ToString(),
+                Description = "API de gerenciamento de frota de veículos",
+                Contact = new OpenApiContact
+                {
+                    Name = "Moisés do Espírito Santo Silva",
+                    Email = "meu_email@outlook.com",
+                    Url = new Uri("https://github.com/moisesess7")
+                }
+            });
+        }
+    }
+}

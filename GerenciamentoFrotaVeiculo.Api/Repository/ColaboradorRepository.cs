@@ -6,12 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GerenciamentoFrotaVeiculo.Api.Repository
 {
-    public class ColaboradorRepository : GenericRepository<Colaborador>, IColaboradorRepository
+    public class ColaboradorRepository(MySqlContext context) : GenericRepository<Colaborador>(context), IColaboradorRepository
     {
-        public ColaboradorRepository(MySqlContext context) :base (context)
-        {
-        }
-
         public async Task<ICollection<Colaborador>> FindByNameAsync(string nome)
         {
             try

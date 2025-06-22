@@ -1,88 +1,69 @@
 ﻿using GerenciamentoFrotaVeiculo.Api.Hypermedia.Constants;
+using GerenciamentoFrotaVeiculo.Api.Hypermedia.Helpers;
 using GerenciamentoFrotaVeiculo.Data.ValueObject;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace GerenciamentoFrotaVeiculo.Api.Hypermedia.Enricher
 {
     public class VeiculoEnricher : ContentResponseEnricher<VeiculoVO>
     {
-        private readonly object _lock = new object();
+        private readonly HyperMediaLinkBuilder _hyperMediaLinkBuilder;
 
-        protected override Task EnrichModel(VeiculoVO content, IUrlHelper urlHelper)
+        public VeiculoEnricher(HyperMediaLinkBuilder hyperMediaLinkBuilder)
         {
-            var linkId = GetLink(true, content.Id, urlHelper);
-            var link = GetLink(false, content.Id, urlHelper);
-
-            content.Links.Add(new HyperMediaLink
-            {
-                Rel = HttpActionVerb.Get,
-                Href = linkId,
-                Action = RelationType.Self,
-                Type = ResponseTypeFormat.DefaultGet
-
-            });
-            
-            content.Links.Add(new HyperMediaLink
-            {
-                Rel = RelationType.Collection,
-                Href = link,
-                Action = HttpActionVerb.Get,
-                Type = ResponseTypeFormat.DefaultGet
-
-            });
-            
-            content.Links.Add(new HyperMediaLink
-            {
-                Rel = RelationType.Create,
-                Href = link,
-                Action = HttpActionVerb.Post,
-                Type = ResponseTypeFormat.DefaultPost
-
-            });
-            
-            content.Links.Add(new HyperMediaLink
-            {
-                Rel = RelationType.Update,
-                Href = linkId,
-                Action = HttpActionVerb.Put,
-                Type = ResponseTypeFormat.DefaultPut
-
-            });
-            
-            content.Links.Add(new HyperMediaLink
-            {
-                Rel = RelationType.Delete,
-                Href = linkId,
-                Action = HttpActionVerb.Delete,
-                Type = ResponseTypeFormat.DefaultDelete
-
-            });
-
-            return Task.CompletedTask;
+            _hyperMediaLinkBuilder = hyperMediaLinkBuilder;
         }
 
-        private string GetLink(bool includId, int? id, IUrlHelper urlHelper)
+        protected override Task EnrichModel(VeiculoVO content, ResultExecutingContext response)
         {
-            ArgumentNullException.ThrowIfNull(urlHelper, nameof(urlHelper));
+            var link = _hyperMediaLinkBuilder.BuildLinks(response);
 
-            try
-            {
-                lock (_lock)
-                {
-                    object url = includId 
-                        ? new { controller = "Veiculos", id }
-                        : new { controller = "Veiculos" };
+            //content.Links.Add(new HyperMediaLink
+            //{
+            //    Rel = HttpActionVerb.Get,
+            //    Href = linkId,
+            //    Action = RelationType.Self,
+            //    Type = ResponseTypeFormat.DefaultGet
 
-                    var link = urlHelper.Link("DefaultApi", url);
+            //});
 
-                    return link ??
-                        throw new InvalidOperationException("Falha ao gerar o link.");
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidOperationException("Erro ao criar link HATOEAS", ex);
-            }
+            //content.Links.Add(new HyperMediaLink
+            //{
+            //    Rel = RelationType.Collection,
+            //    Href = link,
+            //    Action = HttpActionVerb.Get,
+            //    Type = ResponseTypeFormat.DefaultGet
+
+            //});
+
+            //content.Links.Add(new HyperMediaLink
+            //{
+            //    Rel = RelationType.Create,
+            //    Href = link,
+            //    Action = HttpActionVerb.Post,
+            //    Type = ResponseTypeFormat.DefaultPost
+
+            //});
+
+            //content.Links.Add(new HyperMediaLink
+            //{
+            //    Rel = RelationType.Update,
+            //    Href = linkId,
+            //    Action = HttpActionVerb.Put,
+            //    Type = ResponseTypeFormat.DefaultPut
+
+            //});
+
+            //content.Links.Add(new HyperMediaLink
+            //{
+            //    Rel = RelationType.Delete,
+            //    Href = linkId,
+            //    Action = HttpActionVerb.Delete,
+            //    Type = ResponseTypeFormat.DefaultDelete
+
+            //});
+
+            return Task.CompletedTask;
         }
     }
 }

@@ -8,11 +8,7 @@ namespace GerenciamentoFrotaVeiculo.Api.Hypermedia
 {
     public abstract class ContentResponseEnricher<T> : IResponseEnricher where T : ISupportsHyperMedia
     {
-        public ContentResponseEnricher()
-        {
-        }
-
-        protected abstract Task EnrichModel(T content, IUrlHelper urlHelper);
+        protected abstract Task EnrichModel(T content, ResultExecutingContext response);
 
         public bool CanEnrich(ResultExecutingContext response)
         {
@@ -28,22 +24,20 @@ namespace GerenciamentoFrotaVeiculo.Api.Hypermedia
 
         public async Task Enrich(ResultExecutingContext response)
         {
-            var urlHelper = new UrlHelperFactory().GetUrlHelper(response);
-
             if (response.Result is OkObjectResult okObjectResult && okObjectResult.Value is not null)
             {
                 if (okObjectResult.Value is T model)
                 {
-                    await EnrichModel(model, urlHelper);
+                    await EnrichModel(model, response);
                 }
                 else if (okObjectResult.Value is IEnumerable<T> collection)
                 { 
                     var bag = new ConcurrentBag<T>(collection);
 
-                    Parallel.ForEach(bag, (element) =>
+                    foreach (var element in collection)
                     {
-                        EnrichModel(element, urlHelper);
-                    });
+                        await EnrichModel(element, response);
+                    }
                 }
             }
             await Task.FromResult<object>(null!);

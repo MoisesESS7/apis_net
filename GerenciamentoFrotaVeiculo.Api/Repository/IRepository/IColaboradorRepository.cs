@@ -2,7 +2,7 @@
 
 namespace GerenciamentoFrotaVeiculo.Api.Repository.IRepository
 {
-    public interface IColaboradorRepository
+    public interface IColaboradorRepository : IGenericRepository<Colaborador>
     {
         Task<Colaborador> BuscaCompletaAsync(int id);
         Task<ICollection<Veiculo>> FindAllVeiculosByIdColaboradorAsync(int id);

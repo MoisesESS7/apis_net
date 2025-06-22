@@ -283,7 +283,7 @@ namespace GerenciamentoFrotaVeiculo.Api.Business.Implamentations
         {
             try
             {
-                if (quilometragemMinima > quilometragemMaxima) return null!;
+                if (quilometragemMinima > quilometragemMaxima && quilometragemMaxima > 0) return null!;
 
                 var veiculos = await _veiculoRepository.BuscarVeiculosAsync(placa, marca, quilometragemMinima,
                     quilometragemMaxima, cor, ano, modelo, categoria, licenciamento);
